@@ -1,12 +1,37 @@
 from flask import Blueprint, jsonify
 import psutil
+import platform
+import os
 
 main = Blueprint('main', __name__)
 
-@main.route('/api/cpu')
-def cpu_usage():
-    return jsonify({'cpu': psutil.cpu_percent(interval=1)})
 
+def get_cpu_temp():
+    temps = psutil.sensors_temperatures()
+    if not temps:
+        return 'Unavailable'
+    # Example: check common sensor keys like 'coretemp' or 'cpu-thermal'
+    for name in temps:
+        for entry in temps[name]:
+            if entry.label.lower().startswith('package') or not entry.label:
+                return entry.current
+    return 'Unknown'
+
+
+
+
+@main.route('/api/cpu')
+def CPU():
+    return jsonify({
+        'cpu_model': platform.processor(),
+        'cpu_cores': psutil.cpu_count(logical=False),
+        'cpu_threads': psutil.cpu_count(logical=True),
+        'cpu_percent': psutil.cpu_percent(interval=1),
+        'cpu_temp': get_cpu_temp(),
+        'cpu_freq': [f._asdict() for f in psutil.cpu_freq(percpu=True)],
+        'cpu_stats': psutil.cpu_stats()._asdict(),
+        'cpu_load': os.getloadavg() if hasattr(os, 'getloadavg') else 'Unavailable'
+    })
 
 @main.route('/api/disk')
 def disk_usage():
@@ -17,6 +42,7 @@ def disk_usage():
         'percent': disk.percent
     })
 
+
 @main.route('/api/memory')
 def memory():
     mem = psutil.virtual_memory()
@@ -25,3 +51,11 @@ def memory():
         'used_mb': round(mem.used / 1e6, 2),
         'percent': mem.percent
     })
+
+
+@main.route('/api/process')
+def process():
+    process_list = []
+    for proc in psutil.process_iter(['pid', 'name', 'username']):
+        process_list.append(proc.info)
+    return jsonify(process_list)

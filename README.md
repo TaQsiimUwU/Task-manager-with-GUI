@@ -41,7 +41,7 @@ This project is a simple task manager with a graphical user interface (GUI) buil
 1. Start the Electron application:
   ```bash
   cd ../frontend
-  npm run start
+  npx electron .
   ```
 
 The application will launch, and you can monitor system resources in the GUI.
