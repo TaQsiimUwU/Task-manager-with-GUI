@@ -1,11 +1,11 @@
 # Task-manager-with-GUI
 ## Overview
 
-This project is a simple task manager with a graphical user interface (GUI) built using **Electron** for the frontend and **Flask** for the backend. It monitors system resources such as CPU, memory.
+This project is a simple task manager with a graphical user interface (GUI) built using **Electron** for the frontend and **Flask** for the backend. It monitors system resources such as CPU and memory.
 
 ### Technologies Used
 
-- **Electron**: Used to create the desktop application with a GUI.
+- **Electron**: Used to create the desktop application with web technology.
 - **Flask**: A lightweight Python web framework used to build the backend API.
 - **psutil**: A Python library used to retrieve system resource usage data.
 
