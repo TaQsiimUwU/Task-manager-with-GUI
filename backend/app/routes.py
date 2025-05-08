@@ -2,6 +2,7 @@ from flask import Blueprint, jsonify
 import psutil
 import platform
 import os
+import subprocess
 
 main = Blueprint('main', __name__)
 
@@ -10,7 +11,6 @@ def get_cpu_temp():
     temps = psutil.sensors_temperatures()
     if not temps:
         return 'Unavailable'
-    # Example: check common sensor keys like 'coretemp' or 'cpu-thermal'
     for name in temps:
         for entry in temps[name]:
             if entry.label.lower().startswith('package') or not entry.label:
@@ -18,12 +18,24 @@ def get_cpu_temp():
     return 'Unknown'
 
 
+def get_cpu_model():
+    if platform.system() == "Linux":
+        try:
+            with open("/proc/cpuinfo", "r") as f: # Read CPU info from /proc/cpuinfo
+                for line in f:
+                    if "model name" in line:
+                        return line.split(":")[1].strip()
+        except FileNotFoundError:
+            return "Unavailable"
+    elif platform.system() == "Windows":
+        return platform.processor()
+    return "Unknown"
 
 
 @main.route('/api/cpu')
 def CPU():
     return jsonify({
-        'cpu_model': platform.processor(),
+        'cpu_model': get_cpu_model(),
         'cpu_cores': psutil.cpu_count(logical=False),
         'cpu_threads': psutil.cpu_count(logical=True),
         'cpu_percent': psutil.cpu_percent(interval=1),
