@@ -46,7 +46,7 @@ for fish:
   ```
 ##### 3. Install backend dependencies:
   ```bash
- pip install -r requirements.txt
+ pip install -r backend/requirements.txt
   ```
 
 ### Running the Application
