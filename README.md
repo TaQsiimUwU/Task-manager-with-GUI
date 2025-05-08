@@ -21,7 +21,7 @@ This project is a simple task manager with a graphical user interface (GUI) buil
 
 1. Clone the repository:
   ```bash
-  git clone <repository-url>
+  git clone https://github.com/TaQsiimUwU/Task-manager-with-GUI.git
   cd Task-manager-with-GUI
   ```
 
