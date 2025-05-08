@@ -13,28 +13,40 @@ This project is a simple task manager with a graphical user interface (GUI) buil
 
 ### Prerequisites
 
-- **Node.js**: Required to run the Electron application.
+- **Node.js and npm**: Required to run the Electron application.
 - **Python 3**: Required to run the Flask backend.
 - **pip**: Python package manager to install dependencies.
 
 ### Steps to Install Dependencies
 
-1. Clone the repository:
+##### 1. Clone the repository:
   ```bash
   git clone https://github.com/TaQsiimUwU/Task-manager-with-GUI.git
   cd Task-manager-with-GUI
   ```
 
-2. Install frontend dependencies:
+##### 2. Install frontend dependencies:
   ```bash
   cd frontend
   npm install
   ```
 
-3. Install backend dependencies:
+##### for Linux users
+if you are on linux make user to make a venv (virtual environment) to be able to install pythong dependencies
   ```bash
-  cd ../backend
-  pip install -r requirements.txt
+  python -m venv venv
+  ```
+for bash/zsh:
+```bash
+source venv/bin/activate
+  ```
+for fish:
+  ```bash
+  source venv/bin/activate.fish
+  ```
+##### 3. Install backend dependencies:
+  ```bash
+ pip install -r requirements.txt
   ```
 
 ### Running the Application
