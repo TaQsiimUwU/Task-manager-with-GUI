@@ -71,3 +71,4 @@ def process():
     for proc in psutil.process_iter(['pid', 'name', 'username']):
         process_list.append(proc.info)
     return jsonify(process_list)
+#gamal is tryng some bruh
