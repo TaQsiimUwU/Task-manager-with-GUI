@@ -1,59 +1,88 @@
-# Task-manager-with-GUI
-## Overview
+# Task Manager with GUI
 
-This project is a simple task manager with a graphical user interface (GUI) built using **Electron** for the frontend and **Flask** for the backend. It monitors system resources such as CPU and memory.
+This project is a system monitoring application built using **Electron** for the frontend and **Flask** for the backend. It displays system statistics such as CPU, memory, and process information in a graphical user interface.
 
-### Technologies Used
+## Features
 
-- **Electron**: Used to create the desktop application with web technology.
-- **Flask**: A lightweight Python web framework used to build the backend API.
-- **psutil**: A Python library used to retrieve system resource usage data.
+- Displays CPU model, cores, threads, usage, and temperature.
+- Shows memory usage and percentage.
+- Lists running processes with details like PID, name, status, memory usage, and CPU usage.
+- Refresh button to update the displayed stats.
 
-## Installation
+## Project Structure
 
-### Prerequisites
+```
+Task-manager-with-GUI/
+├── backend/
+│   ├── app/
+│   │   ├── __init__.py
+│   │   ├── routes.py
+│   ├── requirements.txt
+│   └── run.py
+├── frontend/
+│   ├── assets/
+│   │   └── index.css
+│   ├── renderer.html
+│   └── renderer.js
+├── preload.js
+├── main.js
+├── package.json
+└── README.md
+```
 
-- **Node.js and npm**: Required to run the Electron application.
-- **Python 3**: Required to run the Flask backend.
-- **pip**: Python package manager to install dependencies.
+## Prerequisites
 
-### Steps to Install Dependencies
+- **Node.js** and **npm** installed.
+- **Python 3** installed.
 
-##### 1. Clone the repository:
-  ```bash
-  git clone https://github.com/TaQsiimUwU/Task-manager-with-GUI.git
-  cd Task-manager-with-GUI
-  ```
 
-##### 2. Install frontend dependencies:
-  ```bash
-  cd frontend
-  npm install
-  ```
+## Setup Instructions
 
-##### for Linux users
-if you are on linux make user to make a venv (virtual environment) to be able to install pythong dependencies
-  ```bash
-  python -m venv venv
-  ```
-for bash/zsh:
-```bash
-source venv/bin/activate
-  ```
-for fish:
-  ```bash
-  source venv/bin/activate.fish
-  ```
-##### 3. Install backend dependencies:
-  ```bash
- pip install -r requirements.txt
-  ```
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/TaQsiimUwU/Task-manager-with-GUI.git
+   cd Task-manager-with-GUI
+   ```
 
-### Running the Application
-1. Start the Electron application:
-  ```bash
-  cd ../frontend
-  npx electron .
-  ```
+2. Set up a Python virtual environment (Linux users):
+   ```bash
+   python3 -m venv venv
+   source venv/bin/activate
+   ```
 
-The application will launch, and you can monitor system resources in the GUI.
+3. Install Node.js dependencies:
+   ```bash
+   npm install
+   ```
+
+4. Install Python dependencies:
+   ```bash
+   pip install -r backend/requirements.txt
+   ```
+
+## Running the Application
+-make sure that you are in the root of the project-
+ Start the application:
+   ```bash
+   npx electron .
+   ```
+
+ The Electron app will launch, and the Flask backend will run on `http://127.0.0.1:3000`.
+
+## API Endpoints
+
+The Flask backend provides the following API endpoints:
+
+- `/api/cpu` - Returns CPU statistics.
+- `/api/memory` - Returns memory usage details.
+- `/api/process` - Returns a list of running processes.
+
+
+## Notes
+
+- Ensure Python and Node.js are properly configured in your system's PATH.
+- The backend runs on port `3000` by default. Update the port in `backend/run.py` if needed.
+
+## License
+
+This project is licensed under the GPT License.

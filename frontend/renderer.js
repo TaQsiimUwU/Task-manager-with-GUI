@@ -2,10 +2,12 @@ async function getStats() {
   try {
     const cpuRes = await fetch('http://127.0.0.1:3000/api/cpu');
     const memRes = await fetch('http://127.0.0.1:3000/api/memory');
+    const procRes = await fetch('http://127.0.0.1:3000//api/process');
     // const diskRes = await fetch('http://localhost:5000/api/disk');
 
     const cpu = await cpuRes.json();
     const mem = await memRes.json();
+    const proc = await procRes.json();
     // const disk = await diskRes.json();
 
     document.getElementById('output').innerText =
@@ -17,10 +19,27 @@ async function getStats() {
       // `\nCPU Load: ${cpu.cpu_load.join(', ')}` +
       // `\nCPU Frequency: ${cpu.cpu_freq.map(f => `${f.current} MHz`).join(', ')}` +
       `\n\nMemory Usage: ${mem.used_mb} MB / ${mem.total_mb} MB (${mem.percent}%)`;
+
+
+      document.getElementById('processes').innerText +=
+      `\n\nProcess ID: ${proc.pid}` +
+      `\nProcess Name: ${proc.name}` +
+      `\nProcess Status: ${proc.status}` +
+      `\nProcess Memory: ${proc.memory} MB` +
+      `\nProcess CPU: ${proc.cpu} %` +
+      `\nProcess Threads: ${proc.threads}` +
+      `\nProcess User: ${proc.user}` +
+      `\nProcess Command: ${proc.command}`;
+
+
   } catch (err) {
     document.getElementById('output').innerText = "Error connecting to backend.";
     console.error(err);
   }
+
+
+
+
 }
 
 getStats(); // auto-load on start
