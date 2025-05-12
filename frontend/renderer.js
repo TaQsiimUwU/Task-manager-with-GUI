@@ -1,14 +1,14 @@
 async function getStats() {
   try {
-    const cpuRes = await fetch('http://127.0.0.1:3000/api/cpu');
-    const memRes = await fetch('http://127.0.0.1:3000/api/memory');
-    const procRes = await fetch('http://127.0.0.1:3000//api/process');
-    // const diskRes = await fetch('http://localhost:5000/api/disk');
+    const cpuRes = await fetch('http://127.0.0.1:3000/cpu');
+    const memRes = await fetch('http://127.0.0.1:3000/memory');
+    const procRes = await fetch('http://127.0.0.1:3000/process');
+    const diskRes = await fetch('http://127.0.0.1:3000/disk');
 
     const cpu = await cpuRes.json();
     const mem = await memRes.json();
     const proc = await procRes.json();
-    // const disk = await diskRes.json();
+    const disk = await diskRes.json();
 
     document.getElementById('output').innerText =
       `CPU Model: ${cpu.cpu_model}` +
@@ -31,6 +31,12 @@ async function getStats() {
       `\nProcess User: ${proc.user}` +
       `\nProcess Command: ${proc.command}`;
 
+    document.getElementById('disk').innerText =
+      `\n\nDisk Usage: ${disk.used_mb} MB / ${disk.total_mb} MB (${disk.percent}%)` +
+      `\nDisk Read: ${disk.read_speed} MB/s` +
+      `\nDisk Write: ${disk.write_speed} MB/s` +
+      `\nDisk IOPS: ${disk.iops}` +
+      `\nDisk Latency: ${disk.latency} ms`;
 
   } catch (err) {
     document.getElementById('output').innerText = "Error connecting to backend.";

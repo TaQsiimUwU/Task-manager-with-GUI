@@ -17,6 +17,6 @@ function createWindow() {
 
 // Launch the Flask backend
 app.whenReady().then(() => {
-  spawn('python3', ['backend/run.py'], { cwd: __dirname });
+  spawn('python3', ['backend/app.py'], { cwd: __dirname });
   createWindow();
 });
