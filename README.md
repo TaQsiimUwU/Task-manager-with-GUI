@@ -22,9 +22,8 @@ Task-manager-with-GUI/
 ├── frontend/
 │   ├── assets/
 │   │   └── index.css
-│   ├── renderer.html
+|   |   └── renderer.html
 │   └── renderer.js
-├── preload.js
 ├── main.js
 ├── package.json
 └── README.md
@@ -73,9 +72,9 @@ Task-manager-with-GUI/
 
 The Flask backend provides the following API endpoints:
 
-- `/api/cpu` - Returns CPU statistics.
-- `/api/memory` - Returns memory usage details.
-- `/api/process` - Returns a list of running processes.
+- `/cpu` - Returns CPU statistics.
+- `/memory` - Returns memory usage details.
+- `/process` - Returns a list of running processes.
 
 
 ## Notes
@@ -85,4 +84,4 @@ The Flask backend provides the following API endpoints:
 
 ## License
 
-This project is licensed under the GPT License.
+This project is licensed under the MIT License.
