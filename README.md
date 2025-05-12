@@ -7,7 +7,6 @@ This project is a system monitoring application built using **Electron** for the
 - Displays CPU model, cores, threads, usage, and temperature.
 - Shows memory usage and percentage.
 - Lists running processes with details like PID, name, status, memory usage, and CPU usage.
-- Refresh button to update the displayed stats.
 
 ## Project Structure
 
