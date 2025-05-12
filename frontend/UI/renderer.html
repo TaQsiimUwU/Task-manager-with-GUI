@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Task manager with electron</title>
+  <link rel="stylesheet" href="index.css">
+
+</head>
+<body>
+  <h1>System Monitor</h1>
+
+  <h2 id="output">Loading...</h2>
+
+
+  <div id="CPU">
+    <h2>CPU</h2>
+      <div id="cpu-info">
+        <!-- CPU information will be displayed here -->
+      </div>
+  </div>
+
+  <div id="memory">
+    <h2>Memory</h2>
+    <div id="memory-info">
+      <!-- Memory information will be displayed here -->
+    </div>
+  </div>
+
+  <div id="processes">
+    <h2>Processes</h2>
+    <div id="process-info">
+      <!-- Process information will be displayed here -->
+    </div>
+  </div>
+
+
+  <div id="disk">
+    <h2>Disk</h2>
+    <div id="disk-info">
+      <!-- Disk information will be displayed here -->
+    </div>
+  </div>
+
+
+
+
+  <script src="../renderer.js"></script>
+</body>
+</html>

@@ -9,15 +9,7 @@ main = Blueprint('main', __name__)
 
 def get_cpu_temp():
     if platform.system() == "Windows":
-        try:
-            # Use PowerShell to get CPU temperature
-            result = subprocess.run(
-                ["powershell", "-Command", "(Get-WmiObject -Class Win32_PerfFormattedData_Counters_ThermalZone).CurrentTemperature"],
-                capture_output=True, text=True)
-            temp = int(result.stdout.strip()) / 10 - 273.15  # Convert from Kelvin to Celsius
-            return round(temp, 2)
-        except Exception as e:
-            return 'Unavailable'
+        return 'Unavailable'
 
     elif platform.system() == "Linux":
         temps = psutil.sensors_temperatures()
@@ -52,9 +44,9 @@ def CPU():
         'cpu_threads': psutil.cpu_count(logical=True),
         'cpu_percent': psutil.cpu_percent(interval=1),
         'cpu_temp': get_cpu_temp(),
-        'cpu_freq': [f._asdict() for f in psutil.cpu_freq(percpu=True)],
+        # 'cpu_freq': [f._asdict() for f in psutil.cpu_freq(percpu=True)],
         'cpu_stats': psutil.cpu_stats()._asdict(),
-        'cpu_load': os.getloadavg() if hasattr(os, 'getloadavg') else 'Unavailable'
+
     })
 
 @main.route('/disk')
@@ -80,7 +72,16 @@ def memory():
 @main.route('/process')
 def process():
     process_list = []
-    for proc in psutil.process_iter(['pid', 'name', 'username']):
-        process_list.append(proc.info)
+    for proc in psutil.process_iter(['pid', 'name', 'cpu_percent', 'memory_info']):
+        try:
+            info = proc.info
+            # Add memory usage in MB as a single value
+            if info.get('memory_info'):
+                mem_info = info['memory_info']
+                info['memory_mb'] =mem_info.rss / 1024 / 1024
+                del info['memory_info']
+            process_list.append(info)
+        except (psutil.NoSuchProcess, psutil.AccessDenied):
+            continue
     return jsonify(process_list)
-#gamal is tryng some bruh
+

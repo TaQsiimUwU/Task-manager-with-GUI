@@ -7,45 +7,44 @@ async function getStats() {
 
     const cpu = await cpuRes.json();
     const mem = await memRes.json();
-    const proc = await procRes.json();
+    const procList = await procRes.json();
     const disk = await diskRes.json();
 
-    document.getElementById('output').innerText =
+    document.getElementById('CPU').innerText =
       `CPU Model: ${cpu.cpu_model}` +
-      `\nCPU Cores: ${cpu.cpu_cores}` +
-      `\nCPU Threads: ${cpu.cpu_threads}` +
+      `\nCPU Cores: ${cpu.cpu_cores}  ||` +
+      `\tCPU Threads: ${cpu.cpu_threads}` +
       `\nCPU Usage: ${cpu.cpu_percent} %` +
-      `\nCPU Temperature: ${cpu.cpu_temp}°C` +
-      // `\nCPU Load: ${cpu.cpu_load.join(', ')}` +
-      // `\nCPU Frequency: ${cpu.cpu_freq.map(f => `${f.current} MHz`).join(', ')}` +
-      `\n\nMemory Usage: ${mem.used_mb} MB / ${mem.total_mb} MB (${mem.percent}%)`;
+      `\nCPU Temperature: ${cpu.cpu_temp}°C` ;
+      // `\nCPU stats: ${JSON.stringify(cpu.cpu_stats)}`;
 
 
-      document.getElementById('processes').innerText +=
+
+    document.getElementById('memory').innerText = `Memory Usage: ${mem.used_mb} MB / ${mem.total_mb} MB (${mem.percent}%)`;
+
+    // document.getElementById('disk').innerText = `Disk Usage: ${disk.used_gb} GB / ${disk.total_gb} GB (${disk.percent}%)`;
+
+    // Show all processes
+    let procText = '';
+    procList.forEach(proc => {
+      procText +=
       `\n\nProcess ID: ${proc.pid}` +
       `\nProcess Name: ${proc.name}` +
-      `\nProcess Status: ${proc.status}` +
-      `\nProcess Memory: ${proc.memory} MB` +
-      `\nProcess CPU: ${proc.cpu} %` +
-      `\nProcess Threads: ${proc.threads}` +
-      `\nProcess User: ${proc.user}` +
-      `\nProcess Command: ${proc.command}`;
+      `\nProcess CPU util: ${proc.cpu_percent}` ;
+      // `\nProcess Memory info: ${JSON.stringify(proc.memory_info)}`;
+    });
+    document.getElementById('processes').innerText = procText;
 
-    document.getElementById('disk').innerText =
-      `\n\nDisk Usage: ${disk.used_mb} MB / ${disk.total_mb} MB (${disk.percent}%)` +
-      `\nDisk Read: ${disk.read_speed} MB/s` +
-      `\nDisk Write: ${disk.write_speed} MB/s` +
-      `\nDisk IOPS: ${disk.iops}` +
-      `\nDisk Latency: ${disk.latency} ms`;
-
+    document.getElementById('output').innerText = "Data loaded successfully.";
+    document.getElementById('output').style.color = "green";
   } catch (err) {
     document.getElementById('output').innerText = "Error connecting to backend.";
+    document.getElementById('output').style.color = "red";
     console.error(err);
   }
-
-
-
-
 }
 
-getStats(); // auto-load on start
+document.addEventListener('DOMContentLoaded', () => {
+  getStats(); // auto-load on start
+  setInterval(getStats, 1000); // call every 1 second
+});

@@ -7,16 +7,16 @@ function createWindow() {
     width: 800,
     height: 600,
     webPreferences: {
-      preload: path.join(__dirname, 'preload.js'),
+
       contextIsolation: true
     }
   });
 
-  win.loadFile('frontend/renderer.html');
+  win.loadFile('frontend/UI/renderer.html');
 }
 
 // Launch the Flask backend
 app.whenReady().then(() => {
-  spawn('python3', ['backend/app.py'], { cwd: __dirname });
+  spawn('python3', ['backend/run.py'], { cwd: __dirname });
   createWindow();
 });
