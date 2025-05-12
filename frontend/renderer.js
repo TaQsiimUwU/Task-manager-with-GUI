@@ -22,7 +22,7 @@ async function getStats() {
 
     document.getElementById('memory').innerText = `Memory Usage: ${mem.used_mb} MB / ${mem.total_mb} MB (${mem.percent}%)`;
 
-    // document.getElementById('disk').innerText = `Disk Usage: ${disk.used_gb} GB / ${disk.total_gb} GB (${disk.percent}%)`;
+    document.getElementById('disk').innerText = `Disk Usage: ${disk.used_gb} GB / ${disk.total_gb} GB (${disk.percent}%)`;
 
     // Show all processes
     let procText = '';
@@ -30,7 +30,9 @@ async function getStats() {
       procText +=
       `\n\nProcess ID: ${proc.pid}` +
       `\nProcess Name: ${proc.name}` +
-      `\nProcess CPU util: ${proc.cpu_percent}` ;
+      `\nProcess CPU util: ${proc.cpu_percent}` +
+      `\nProcess MEM util: ${proc.memory_mb}` ;
+
       // `\nProcess Memory info: ${JSON.stringify(proc.memory_info)}`;
     });
     document.getElementById('processes').innerText = procText;

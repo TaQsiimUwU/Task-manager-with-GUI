@@ -78,7 +78,7 @@ def process():
             # Add memory usage in MB as a single value
             if info.get('memory_info'):
                 mem_info = info['memory_info']
-                info['memory_mb'] =mem_info.rss / 1024 / 1024
+                info['memory_mb'] =mem_info.rss
                 del info['memory_info']
             process_list.append(info)
         except (psutil.NoSuchProcess, psutil.AccessDenied):
