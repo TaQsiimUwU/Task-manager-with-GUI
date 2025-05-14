@@ -227,21 +227,21 @@ document.getElementById('end-task-btn').addEventListener('click', async () => {
     }
 });
 
-// Add refresh button functionality
-document.getElementById('refresh-btn').addEventListener('click', async () => {
-    const refreshBtn = document.getElementById('refresh-btn');
-    try {
-        refreshBtn.disabled = true;
-        refreshBtn.style.opacity = '0.7';
-        await getStats();
-    } catch (error) {
-        console.error('Error refreshing data:', error);
-        alert('Error refreshing data. Please try again.');
-    } finally {
-        refreshBtn.disabled = false;
-        refreshBtn.style.opacity = '1';
-    }
-});
+// // Add refresh button functionality
+// document.getElementById('refresh-btn').addEventListener('click', async () => {
+//     const refreshBtn = document.getElementById('refresh-btn');
+//     try {
+//         refreshBtn.disabled = true;
+//         refreshBtn.style.opacity = '0.7';
+//         await getStats();
+//     } catch (error) {
+//         console.error('Error refreshing data:', error);
+//         alert('Error refreshing data. Please try again.');
+//     } finally {
+//         refreshBtn.disabled = false;
+//         refreshBtn.style.opacity = '1';
+//     }
+// });
 
 // Initialize sort handlers
 document.addEventListener('DOMContentLoaded', () => {
