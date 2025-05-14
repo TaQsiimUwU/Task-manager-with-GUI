@@ -3,35 +3,58 @@
 <head>
   <meta charset="UTF-8" />
   <title>Task manager with electron</title>
-  <link rel="stylesheet" href="index.css">
+  <link rel="stylesheet" href="css/index.css">
+  <link rel="stylesheet" href="css/cpu.css">
+  <link rel="stylesheet" href="css/memory.css">
+  <link rel="stylesheet" href="css/background.css">
 
 </head>
 <body>
-  <h1>System Monitor</h1>
+  <div class="header">
+    <h1>System <span class="highlight">Monitor</span></h1>
+  </div>
 
-  <h2 id="output">Loading...</h2>
+  <h2 id="output"></h2>
 
 
-  <div id="CPU">
-    <h2>CPU</h2>
-      <div id="cpu-info">
-        <!-- CPU information will be displayed here -->
+<div id="CPU">
+  <h2>CPU Infos</h2><img src="" alt="">
+  <div id="CPU_MODEL">
+    <div id="cpu_name"> </div>
+    <div id="cpu_cores"> </div>
+    <div id="cpu_load"></div>
+    <div class="usage">
+      <div class="progress">
+        <div class="progress__fill"></div>
+        <span id= "progress_text"class="progress_text">0%</span>
       </div>
-  </div>
-
-  <div id="memory">
-    <h2>Memory</h2>
-    <div id="memory-info">
-      <!-- Memory information will be displayed here -->
+      <div id="cpu_usage">Cpu </div>
+    </div>
+    <div id="cpu_temp"></div>
+    <div id="cpu_threads"></div>
+    <!-- <div id="cpu_freq"></div>     -->
+    <div class="memory_usage">
+      <div class="progress">
+        <div class="progress__fill"></div>
+        <span class="progress_text" id="memory_progress_text">0%</span>
+      </div>
+      <div id="memory"> </div>
+    </div>
+    <div class="disk_usage">
+      <div class="progress">
+        <div class="progress__fill"></div>
+        <span class="progress_text" id="disk_progress_text" >0%</span>
+      </div>
+      <div id="disk"> </div>
+    </div>
+      </div>
     </div>
   </div>
+</div>
+</div>
+</div>
 
-<div id="disk">
-    <h2>Disk</h2>
-    <div id="disk-info">
-      <!-- Disk information will be displayed here -->
-    </div>
-  </div>
+
 
   <div id="processes">
     <h2>Processes</h2>
@@ -45,6 +68,6 @@
 
 
 
-  <script src="../renderer.js"></script>
+  <script src="js/renderer.js"></script>
 </body>
 </html>
