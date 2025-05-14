@@ -1,8 +1,9 @@
-from flask import Blueprint, jsonify
+from flask import Blueprint, jsonify, request
 import psutil
 import platform
 import os
 import subprocess
+from .KillProc import kill_by_pid
 
 main = Blueprint('main', __name__)
 
@@ -84,4 +85,19 @@ def process():
         except (psutil.NoSuchProcess, psutil.AccessDenied):
             continue
     return jsonify(process_list)
+
+
+@main.route('/kill', methods=['POST'])
+def kill_process():
+    try:
+        data = request.get_json()
+        pid = data.get('pid')
+
+        if not pid:
+            return jsonify({'success': False, 'error': 'PID not provided'}), 400
+
+        kill_by_pid(pid)
+        return jsonify({'success': True})
+    except Exception as e:
+        return jsonify({'success': False, 'error': str(e)}), 500
 

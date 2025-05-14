@@ -57,9 +57,28 @@
 
 
   <div id="processes">
-    <h2>Processes</h2>
+    <div class="process-info-header">
+      <h2>Processes</h2>
+      <button id="refresh-btn" class="refresh-btn">↻ Refresh</button>
+    </div>
     <div id="process-info">
-      <!-- Process information will be displayed here -->
+      <table class="process-table">
+        <thead>
+          <tr>
+            <th>Process Name</th>
+            <th>PID</th>
+            <th>CPU %</th>
+            <th>Memory %</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody id="process-list">
+          <!-- Process rows will be dynamically added here -->
+        </tbody>
+      </table>
+      <div class="process-controls">
+        <button id="end-task-btn" class="end-task-btn">ENDTASK</button>
+      </div>
     </div>
   </div>
 
