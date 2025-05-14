@@ -1,0 +1,143 @@
+#CPU_MODEL {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(2, auto);
+    gap: 10px;
+
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+    color: white;
+    background: rgba(255, 255, 255, 0.05);
+    padding: 15px;
+    border: 1px solid transparent;
+    border-radius: 15px;
+    white-space: pre-line; /* Preserve line breaks */
+    line-height: 0.5;
+    margin-left: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-top: 1rem;
+    white-space: pre-wrap;
+}
+
+#CPU_MODEL > div {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 15px;
+    text-align: center;
+    font-weight: bold;
+    color: #00ffcc;
+    font-size: 14px;
+    top: 50%;
+    white-space: pre; /* Allow text wrapping */
+}
+#CPU_MODEL #loading {
+    grid-column: span 4;
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+    color: lightgray;
+}
+
+#CPU_MODEL #cpu_name {
+    overflow: visible; /* Allow text to overflow */
+    /*word-wrap: break-word; /* Break words if necessary */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    text-align: center;
+}
+
+#CPU h2{
+    font-size: 50px;
+    text-align: center;
+    color: #00ffcc;
+    font-weight: bold;
+    display: flex;
+    margin: 0;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+}
+
+#CPU_MODEL #cpu_cores,
+#CPU_MODEL #cpu_name,
+#CPU_MODEL #cpu_threads,
+#CPU_MODEL #usage,
+#CPU_MODEL #cpu_temp,
+#CPU_MODEL #cpu_load,
+#CPU_MODEL #cpu_states,
+#CPU_MODEL #disk_usage,
+#CPU_MODEL #memory_usage {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 15px;
+    text-align: center;
+    font-weight: bold;
+    top: 50%;
+    color: #00ffcc;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    text-align: center;
+    /* margin-bottom: 10px; */
+}
+#CPU_MODEL .cpu-name {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+#amd {
+    width:  30px;
+    height: 30px;
+    object-fit: cover;
+    margin-right: 10px;
+    display: inline-block;
+    vertical-align: middle;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+.cpu_info {
+    font-size: 16px;
+    text-align: center;
+    color: #00ffcc;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+}
+
+.progress {
+    position: relative;
+    width: 300px;
+    height: 30px;
+    margin: 0 auto;
+    background: #9cbab4;
+    border-radius: 80px;
+    overflow: hidden;
+}
+
+.progress__fill {
+    width: 0%;
+    height: 100%;
+    background: #009579;
+    transition: all 0.2s;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.progress_text {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    font: bold 14px "Quicksand", sans-serif;
+    color: #ffffff;
+}  
