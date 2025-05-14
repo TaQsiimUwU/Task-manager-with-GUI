@@ -8,7 +8,23 @@
     --fontcolor: white;
   }
 
+/* Custom scrollbar styling */
+::-webkit-scrollbar {
+    width: 12px;
+}
 
+::-webkit-scrollbar-track {
+    background: #1a1a1a;
+}
+
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(45deg, #00ffcc, #62ffe0);
+    border-radius: 2px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(45deg, #00ffcc, #62ffe0);
+}
 
 
 body {
