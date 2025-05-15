@@ -4,11 +4,7 @@ import subprocess
 
 
 def kill_by_pid(pid):
-   """
-   Kills a process by its PID.
-   :param pid: PID of the process to kill.
-   :return: None
-   """
+
    try:
       if platform.system() == "Windows":
          # Use taskkill command for Windows
