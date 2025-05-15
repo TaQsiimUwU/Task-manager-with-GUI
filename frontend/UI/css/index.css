@@ -102,22 +102,4 @@ body {
 }
 
 
-#refreshButton {
-  width: 100px;
-  height: 40px;
-  padding: 12px;
-  background: linear-gradient(45deg, #00ffccd8, #00ffcc);
-  border: none;
-  border-radius: 8px;
-  color: white;
-  font-size: 1rem;
-  cursor: pointer;
-  transition: transform 0.3s ease;
-  margin-top: 20px;
-  align-self: center;
-}
 
-#refreshButton:hover {
-  /* transform: translateY(-2px); */
-  transform: translateX(-2px);
-}

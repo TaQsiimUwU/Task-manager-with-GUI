@@ -46,16 +46,16 @@ body {
 }
 
 .gradient-1 {
-    background: radial-gradient(circle at 50% 50%, 
-        rgba(139, 92, 246, 0.3), 
+    background: radial-gradient(circle at 50% 50%,
+        rgba(139, 92, 246, 0.3),
         transparent 100%);
     transform-origin: 20% 50%;
     z-index: -1;
 }
 
 .gradient-2 {
-    background: radial-gradient(circle at 100% 100%, 
-        rgba(76, 29, 149, 0.3), 
+    background: radial-gradient(circle at 100% 100%,
+        rgba(76, 29, 149, 0.3),
         transparent 100%);
     transform-origin: 80% 50%;
     z-index: -1;
@@ -63,8 +63,8 @@ body {
 
 
 .gradient-3 {
-    background: radial-gradient(circle at 100% 100%, 
-        rgba(76, 29, 149, 0.3), 
+    background: radial-gradient(circle at 100% 100%,
+        rgba(76, 29, 149, 0.3),
         transparent 100%);
     transform-origin: 100% 50%;
     z-index: -1;
