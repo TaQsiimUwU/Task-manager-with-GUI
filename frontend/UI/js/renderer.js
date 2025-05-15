@@ -5,17 +5,17 @@ function updateProgressBar(progressBar, value) {
 }
 
 // Function to start the application and fetch initial data and to run anly one time
-function start() {
+async function start() {
     try {   
-        const cpuRes0 =  fetch('http://127.0.0.1:3000/cpu');
-        const memRes0 =  fetch('http://127.0.0.1:3000/memory');
-        const procRes0 =  fetch('http://127.0.0.1:3000/process');
-        const diskRes0 =  fetch('http://127.0.0.1:3000/disk');
+        const cpuRes0 = await fetch('http://127.0.0.1:3000/cpu');
+        const memRes0 = await fetch('http://127.0.0.1:3000/memory');
+        const procRes0 = await fetch('http://127.0.0.1:3000/process');
+        const diskRes0 = await fetch('http://127.0.0.1:3000/disk');
   
-        const cpu0 =  cpuRes0.json();
-        const mem0 =  memRes0.json();
-        const procList0 =  procRes0.json();
-        const disk0 =  diskRes0.json();
+        const cpu0 = await cpuRes0.json();
+        const mem0 = await memRes0.json();
+        const procList0 = await procRes0.json();
+        const disk0 = await diskRes0.json();
   
         const cpu_usage0 = document.querySelector(".usage");
         const memory_usage0 = document.querySelector(".memory_usage");
@@ -34,9 +34,9 @@ function start() {
         document.getElementById('memory').innerText = `Memory Usage: ${mem0.used_mb} MB / ${mem0.total_mb} MB`;
   
         // Update progress bars
-        updateProgressBar(cpu_usage0, cpu.cpu_percent);
-        updateProgressBar(memory_usage0, mem.percent);
-        updateProgressBar(disk_usage0, disk.percent);
+        updateProgressBar(cpu_usage0, cpu0.cpu_percent);
+        updateProgressBar(memory_usage0, mem0.percent);
+        updateProgressBar(disk_usage0, disk0.percent);
   
         // Update the process table
         updateProcessTable(procList0);
@@ -69,6 +69,10 @@ async function getStates() {
         document.getElementById('disk').innerText = `Disk Usage: ${disk.used_gb} GB / ${disk.total_gb} GB`;
         document.getElementById('memory_progress_text').innerText = `${mem.percent} %`;
         document.getElementById('memory').innerText = `Memory Usage: ${mem.used_mb} MB / ${mem.total_mb} MB`;
+        
+        const cpu_usage = document.querySelector(".usage");
+        const memory_usage = document.querySelector(".memory_usage");
+        const disk_usage = document.querySelector(".disk_usage");
 
         updateProgressBar(cpu_usage, cpu.cpu_percent);
         updateProgressBar(memory_usage, mem.percent);
@@ -267,7 +271,7 @@ document.getElementById('end-task-btn').addEventListener('click', async () => {
 //     try {
 //         refreshBtn.disabled = true;
 //         refreshBtn.style.opacity = '0.7';
-//         await getStats();
+//         await getStates();
 //     } catch (error) {
 //         console.error('Error refreshing data:', error);
 //         alert('Error refreshing data. Please try again.');
@@ -276,6 +280,8 @@ document.getElementById('end-task-btn').addEventListener('click', async () => {
 //         refreshBtn.style.opacity = '1';
 //     }
 // });
+
+start();
 
 // Initialize sort handlers
 document.addEventListener('DOMContentLoaded', () => {
@@ -298,17 +304,17 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             // Trigger an immediate update
-            getStats();
+            getStates();
         });
     });
 
     // Rest of your DOMContentLoaded code...
-    getStats(); // Initial load
+    getStates(); // Initial load
 
     // Add error boundary for periodic updates
     const periodicUpdate = async () => {
         try {
-            await getStats();
+            await getStates();
         } catch (error) {
             console.error('Error in periodic update:', error);
         }
