@@ -1,70 +1,35 @@
+const cpuUsgeURL   = 'http://127.0.0.1:3000/cpu';
+const memUsageURL  = 'http://127.0.0.1:3000/memory';
+const diskUsageURL = 'http://127.0.0.1:3000/disk';
+const processesURL = 'http://127.0.0.1:3000/process'
+let totalMem = 0;
+
+// update progress bars(cpu usage , memory usage , disk usage)
 function updateProgressBar(progressBar, value) {
     value = Math.round(value);
     progressBar.querySelector(".progress__fill").style.width = `${value}%`;
     progressBar.querySelector(".progress_text").textContent = `${value}%`;
 }
 
-// Function to start the application and fetch initial data and to run anly one time
-async function start() {
-    try {
-        const cpuRes0 = await fetch('http://127.0.0.1:3000/cpu');
-        const memRes0 = await fetch('http://127.0.0.1:3000/memory');
-        const procRes0 = await fetch('http://127.0.0.1:3000/process');
-        const diskRes0 = await fetch('http://127.0.0.1:3000/disk');
 
-        const cpu0 = await cpuRes0.json();
-        const mem0 = await memRes0.json();
-        const procList0 = await procRes0.json();
-        const disk0 = await diskRes0.json();
+// gets the dynamic states of the system(cpu usage , cpu interrupts , cpu temp , memory usage , disk usage)
+async function getDynamicStates() {
+    try{
+        const cpuUsage = await fetch(cpuUsgeURL);
+        const cpu  =  await cpuUsage.json();
 
-        const cpu_usage0 = document.querySelector(".usage");
-        const memory_usage0 = document.querySelector(".memory_usage");
-        const disk_usage0 = document.querySelector(".disk_usage");
+        const memUsage = await fetch(memUsageURL);
+        const mem  =  await memUsage.json();
 
-        document.getElementById('cpu_name').innerText = `Model: ${cpu0.cpu_model}`;
-        document.getElementById('cpu_cores').innerText = `Cores: ${cpu0.cpu_cores} `;
-        document.getElementById('cpu_threads').innerText = `Threads: ${cpu0.cpu_threads} `;
-        document.getElementById('progress_text').innerText = `${cpu0.cpu_percent} %`;
-        document.getElementById('cpu_usage').innerText = `CPU Usage: ${cpu0.cpu_percent} %`;
-        document.getElementById('cpu_temp').innerText = `Temperature: ${cpu0.cpu_temp} °C`;
-        document.getElementById('cpu_load').innerText = `CPU stats: ${JSON.stringify(cpu0.cpu_stats.interrupts)}`;
-        document.getElementById('disk_progress_text').innerText = `${disk0.percent} %`;
-        document.getElementById('disk').innerText = `Disk Usage: ${disk0.used_gb} GB / ${disk0.total_gb} GB`;
-        document.getElementById('memory_progress_text').innerText = `${mem0.percent} %`;
-        document.getElementById('memory').innerText = `Memory Usage: ${mem0.used_mb} MB / ${mem0.total_mb} MB`;
+        const diskUsage = await fetch(diskUsageURL);
+        const disk =  await diskUsage.json();
 
-        // Update progress bars
-        updateProgressBar(cpu_usage0, cpu0.cpu_percent);
-        updateProgressBar(memory_usage0, mem0.percent);
-        updateProgressBar(disk_usage0, disk0.percent);
+        totalMem = mem.total_mb;
 
-        // Update the process table
-        updateProcessTable();
-
-        document.getElementById('output').style.display = "none";
-    } catch (err) {
-        document.getElementById('output').innerText = "Error connecting to backend.";
-        document.getElementById('output').style.color = "red";
-        console.error(err);
-    }
-  }
-
-
-  // Function to fetch and update system states periodically
-  async function getStates() {
-      try {
-          const cpuRes = await fetch('http://127.0.0.1:3000/cpu');
-          const memRes = await fetch('http://127.0.0.1:3000/memory');
-          const diskRes = await fetch('http://127.0.0.1:3000/disk');
-
-          const cpu = await cpuRes.json();
-          const mem = await memRes.json();
-          const disk = await diskRes.json();
-
-          document.getElementById('progress_text').innerText = `${cpu.cpu_percent} %`;
-          document.getElementById('cpu_usage').innerText = `CPU Usage: ${cpu.cpu_percent} %`;
-          document.getElementById('cpu_temp').innerText = `Temperature: ${cpu.cpu_temp} °C`;
-          document.getElementById('cpu_load').innerText = `CPU interrupts: ${JSON.stringify(cpu.cpu_stats.interrupts)}`;
+        document.getElementById('progress_text').innerText = `${cpu.cpu_percent} %`;
+        document.getElementById('cpu_usage').innerText = `CPU Usage: ${cpu.cpu_percent} %`;
+        document.getElementById('cpu_temp').innerText = `Temperature: ${cpu.cpu_temp} °C`;
+        document.getElementById('cpu_load').innerText = `CPU stats: ${JSON.stringify(cpu.cpu_stats.interrupts)}`;
         document.getElementById('disk_progress_text').innerText = `${disk.percent} %`;
         document.getElementById('disk').innerText = `Disk Usage: ${disk.used_gb} GB / ${disk.total_gb} GB`;
         document.getElementById('memory_progress_text').innerText = `${mem.percent} %`;
@@ -86,104 +51,112 @@ async function start() {
     }
 }
 
-// Function to update the process table
-async function updateProcessTable() {
-    const procRes = await fetch('http://127.0.0.1:3000/process');
-    const processes = await procRes.json();
 
-    const processList = document.getElementById('process-list');
-    processList.innerHTML = '';
+// gets the static states of the system(cpu model , cpu cores , cpu threads)
+async function getstaticStates() {
+    try{
 
-    processes.forEach(process => {
-        const row = document.createElement('tr');
+        const cpuUsage = await fetch(cpuUsgeURL);
+        const cpu  =  await cpuUsage.json();
 
-        // Calculate memory percentage safely
-        let memoryPercent = 0;
-        try {
-            memoryPercent = process.memory_mb ?
-                ((process.memory_m)).toFixed(1) :
-                0;
-        } catch (error) {
-            console.warn('Error calculating memory percentage:', error);
-        }
+        document.getElementById('cpu_name').innerText = `Model: ${cpu.cpu_model}`;
+        document.getElementById('cpu_cores').innerText = `Cores: ${cpu.cpu_cores} `;
+        document.getElementById('cpu_threads').innerText = `Threads: ${cpu.cpu_threads} `;
 
-        // Format status with color coding
-        const status = process.status || 'Running';
-        const statusClass = status.toLowerCase() === 'running' ? 'status-running' : 'status-stopped';
+        document.getElementById('output').style.display = "none";
+    } catch (err) {
+        document.getElementById('output').innerText = "Error connecting to backend.";
+        document.getElementById('output').style.color = "red";
+        console.error(err);
+    }
+}
 
-        row.innerHTML = `
+async function updateProcess() {
+    try{
+        const process = await fetch(processesURL);
+        const processList = await process.json();
+
+        let processTable = document.getElementById('process-list');
+        processTable.innerHTML = "";
+        processList.forEach((process) => {
+            let row = document.createElement("tr");
+            row.innerHTML = `
             <td>${process.name || 'Unknown'}</td>
             <td>${process.pid || 'N/A'}</td>
-            <td>${(process.cpu_percent || 0).toFixed(1)}%</td>
-            <td>${memoryPercent}</td>
-            <td><span class="process-status ${statusClass}">${status}</span></td>
+            <td>${(process.cpu_percent ).toFixed(1)}%</td>
+            <td>${(process.memory_mb).toFixed(2) || 0} MB</td>
+            <td>${process.username}</td>
             <td><div class="process-controls">
             <button id="end-task-btn" class="end-task-btn">ENDTASK</button>
-            </div></td>
-        `;
-
-        // Add click handler for row selection
-        row.addEventListener('click', (e) => {
-            // Ignore if clicking on a header
-            if (e.target.tagName.toLowerCase() === 'th') return;
-
-            // Remove selection from previously selected row
-            const previouslySelected = document.querySelector('.process-table tr.selected');
-            if (previouslySelected) {
-                previouslySelected.classList.remove('selected');
-            }
-
-            // Select current row
-            row.classList.add('selected');
-            selectedProcess = process;
-
-            // Show end task button
-            const endTaskBtn = document.getElementById('end-task-btn');
-            endTaskBtn.classList.add('visible');
+            </div></td>`
+            processTable.appendChild(row);
         });
 
-        processList.appendChild(row);
+        document.getElementById('output').style.display = "none";
+    } catch (err) {
+        document.getElementById('output').innerText = "Error connecting to backend.";
+        document.getElementById('output').style.color = "red";
+        console.error(err);
+    }
+}
+
+function enableTableSorting() {
+    const table = document.getElementById('process-list');
+    const headers = table.querySelectorAll('th'); // Select all table headers
+
+    headers.forEach((header, index) => {
+        header.addEventListener('click', () => {
+            sortProcesses(index); // Call the sort function with the column index
+        });
     });
 }
 
-start();
+function sortProcesses(column) {
+    const table = document.getElementById('process-list');
+    const rows = Array.from(table.rows).slice(1); // Skip the header row
 
-document.addEventListener('DOMContentLoaded', () => {
-    // Add data-column attributes to headers
-    const headers = document.querySelectorAll('.process-table th');
-    const columns = ['name', 'pid', 'cpu_percent', 'memory_percent'];
+    rows.sort((a, b) => {
+        const aText = a.cells[column].innerText.trim();
+        const bText = b.cells[column].innerText.trim();
 
-
-    headers.forEach((header, index) => {
-        header.setAttribute('data-column', columns[index]);
-
-        header.addEventListener('click', () => {
-            const column = header.getAttribute('data-column');
-
-            // Toggle sort direction if clicking the same column
-            if (currentSort.column === column) {
-                currentSort.direction = currentSort.direction === 'asc' ? 'desc' : 'asc';
-            } else {
-                currentSort.column = column;
-                currentSort.direction = 'asc';
-            }
-
-            // Trigger an immediate update
-            getStates();
-        });
+        // Sort numerically for CPU and Memory columns, otherwise sort alphabetically
+        if (column === 2 || column === 3) { // Assuming column 2 is CPU and column 3 is Memory
+            return parseFloat(aText) - parseFloat(bText);
+        } else {
+            return aText.localeCompare(bText);
+        }
     });
 
-    // Rest of your DOMContentLoaded code...
-    getStates(); // Initial load
+    rows.forEach(row => table.appendChild(row)); // Re-append sorted rows
+}
 
-    // Add error boundary for periodic updates
-    const periodicUpdate = async () => {
-        try {
-            await getStates();
-        } catch (error) {
-            console.error('Error in periodic update:', error);
-        }
-    };
+function searchProcesses(searchText) {
+    const input = searchText.toLowerCase();
+    const rows = document.querySelectorAll('#process-list tr');
 
-    setInterval(periodicUpdate, 2000); // Update every 2 seconds
-});
+    rows.forEach(row => {
+        const cells = row.querySelectorAll('td');
+        let found = false;
+
+        cells.forEach(cell => {
+            if (cell.innerText.toLowerCase().includes(input)) {
+                found = true;
+            }
+        });
+
+        row.style.display = found ? '' : 'none';
+    });
+}
+
+
+
+// Initial calls
+getDynamicStates();
+getstaticStates();
+
+// Update states every second
+setInterval(() => { getDynamicStates();}, 1000);
+updateProcess();
+
+getstaticStates();
+enableTableSorting();
