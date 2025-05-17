@@ -68,19 +68,17 @@
             <th>Process Name</th>
             <th>PID</th>
             <th>CPU %</th>
-            <th>Memory %</th>
-            <th>Status</th>
+            <th>Memory</th>
             <th>User</th>
-            <th></th>
+            <th>
+              <input type="text" id="process-search" placeholder="Search processes..." onkeyup="searchProcesses(this.value)">
+            </th>
           </tr>
         </thead>
         <tbody id="process-list">
           <!-- Process rows will be dynamically added here -->
         </tbody>
       </table>
-      <div class="process-controls"style='display:hidden;'>
-        <button id="end-task-btn" class="end-task-btn"style="display:hidden;"></button>
-      </div>
     </div>
   </div>
 

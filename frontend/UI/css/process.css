@@ -21,7 +21,7 @@
     align-self: center;
     position:absolute;
     top: 0;
-    right: 5px;
+    right: 1%;
   }
   
   #refresh-process-btn:hover {
@@ -98,4 +98,37 @@
 th:hover{
     background: rgba(255, 255, 255, 0.05);
     cursor: pointer;
+}
+
+#process-search{
+    width: 30%;
+    padding: 10px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    margin-bottom: 20px;
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+    float: right;
+    margin-right: 15px;
+    transition: width 0.3s ease, box-shadow 0.3s ease;
+}
+
+#process-search::placeholder{
+    color: #00ffcc;
+    opacity: 0.7;
+}
+
+
+#process-search:hover{
+    outline: none;
+    box-shadow: 0 0 8px rgba(0, 255, 204, 0.6);
+    transition: width 0.3s ease, box-shadow 0.3s ease;
+    width: 80%;
+}
+
+#process-search:focus{
+    outline: none;
+    box-shadow: 0 0 8px rgba(0, 255, 204, 0.6);
+    transition: width 0.3s ease, box-shadow 0.3s ease;
+    width: 80%;
 }

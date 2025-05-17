@@ -2,7 +2,7 @@ const cpuUsgeURL   = 'http://127.0.0.1:3000/cpu';
 const memUsageURL  = 'http://127.0.0.1:3000/memory';
 const diskUsageURL = 'http://127.0.0.1:3000/disk';
 const processesURL = 'http://127.0.0.1:3000/process'
-
+let totalMem = 0;
 
 // update progress bars(cpu usage , memory usage , disk usage)
 function updateProgressBar(progressBar, value) {
@@ -23,6 +23,8 @@ async function getDynamicStates() {
         
         const diskUsage = await fetch(diskUsageURL);
         const disk =  await diskUsage.json();
+
+        totalMem = mem.total_mb;
 
         document.getElementById('progress_text').innerText = `${cpu.cpu_percent} %`;
         document.getElementById('cpu_usage').innerText = `CPU Usage: ${cpu.cpu_percent} %`;
@@ -81,10 +83,9 @@ async function updateProcess() {
             row.innerHTML = `
             <td>${process.name || 'Unknown'}</td>
             <td>${process.pid || 'N/A'}</td>
-            <td>${(process.cpu_percent || 0).toFixed(1)}%</td>
-            <td>${process.memory_percent || 0}%</td>
-            <td><span class="process-status ${process.status ? 'running' : 'stopped'}">${process.status || 'unknown'}</span></td>
-            <td>${process.username}%</td>
+            <td>${(process.cpu_percent ).toFixed(1)}%</td>
+            <td>${(process.memory_mb).toFixed(2) || 0} MB</td>
+            <td>${process.username}</td>
             <td><div class="process-controls">
             <button id="end-task-btn" class="end-task-btn">ENDTASK</button>
             </div></td>`
@@ -128,6 +129,26 @@ function sortProcesses(column) {
 
     rows.forEach(row => table.appendChild(row)); // Re-append sorted rows
 }
+
+function searchProcesses(searchText) {
+    const input = searchText.toLowerCase();
+    const rows = document.querySelectorAll('#process-list tr');
+
+    rows.forEach(row => {
+        const cells = row.querySelectorAll('td');
+        let found = false;
+
+        cells.forEach(cell => {
+            if (cell.innerText.toLowerCase().includes(input)) {
+                found = true;
+            }
+        });
+
+        row.style.display = found ? '' : 'none';
+    });
+}
+
+
 
 // Initial calls
 getDynamicStates();
