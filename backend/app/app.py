@@ -73,7 +73,7 @@ def memory():
 @main.route('/process')
 def process():
     process_list = []
-    for proc in psutil.process_iter(['pid', 'name', 'cpu_percent', 'memory_info','username']):
+    for proc in psutil.process_iter(['pid', 'name', 'cpu_percent', 'memory_info','username','status']):
         try:
             info = proc.info
             # Add memory usage in MB as a single value

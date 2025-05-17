@@ -135,6 +135,7 @@ getstaticStates();
 
 // Update states every second
 setInterval(() => { getDynamicStates();}, 1000);
+updateProcess();
 
 getstaticStates();
 enableTableSorting();
