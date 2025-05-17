@@ -101,7 +101,7 @@ async function updateProcessTable() {
         let memoryPercent = 0;
         try {
             memoryPercent = process.memory_mb ?
-                ((process.memory_mb / (process.memory_mb * 100)) * 100).toFixed(1) :
+                ((process.memory_m)).toFixed(1) :
                 0;
         } catch (error) {
             console.warn('Error calculating memory percentage:', error);
