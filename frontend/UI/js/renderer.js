@@ -117,7 +117,30 @@ async function updateProcessTable() {
             <td>${(process.cpu_percent || 0).toFixed(1)}%</td>
             <td>${memoryPercent}%</td>
             <td><span class="process-status ${statusClass}">${status}</span></td>
+            <td><div class="process-controls">
+            <button id="end-task-btn" class="end-task-btn">ENDTASK</button>
+            </div></td>
         `;
+
+        // Add click handler for row selection
+        row.addEventListener('click', (e) => {
+            // Ignore if clicking on a header
+            if (e.target.tagName.toLowerCase() === 'th') return;
+
+            // Remove selection from previously selected row
+            const previouslySelected = document.querySelector('.process-table tr.selected');
+            if (previouslySelected) {
+                previouslySelected.classList.remove('selected');
+            }
+
+            // Select current row
+            row.classList.add('selected');
+            selectedProcess = process;
+
+            // Show end task button
+            const endTaskBtn = document.getElementById('end-task-btn');
+            endTaskBtn.classList.add('visible');
+        });
 
         processList.appendChild(row);
     });
@@ -126,8 +149,32 @@ async function updateProcessTable() {
 start();
 
 document.addEventListener('DOMContentLoaded', () => {
-    // Initial load
-    getStates();
+    // Add data-column attributes to headers
+    const headers = document.querySelectorAll('.process-table th');
+    const columns = ['name', 'pid', 'cpu_percent', 'memory_percent', 'status'];
+
+
+    headers.forEach((header, index) => {
+        header.setAttribute('data-column', columns[index]);
+
+        header.addEventListener('click', () => {
+            const column = header.getAttribute('data-column');
+
+            // Toggle sort direction if clicking the same column
+            if (currentSort.column === column) {
+                currentSort.direction = currentSort.direction === 'asc' ? 'desc' : 'asc';
+            } else {
+                currentSort.column = column;
+                currentSort.direction = 'asc';
+            }
+
+            // Trigger an immediate update
+            getStates();
+        });
+    });
+
+    // Rest of your DOMContentLoaded code...
+    getStates(); // Initial load
 
     // Add error boundary for periodic updates
     const periodicUpdate = async () => {
