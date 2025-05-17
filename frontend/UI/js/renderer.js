@@ -6,21 +6,21 @@ function updateProgressBar(progressBar, value) {
 
 // Function to start the application and fetch initial data and to run anly one time
 async function start() {
-    try {   
+    try {
         const cpuRes0 = await fetch('http://127.0.0.1:3000/cpu');
         const memRes0 = await fetch('http://127.0.0.1:3000/memory');
         const procRes0 = await fetch('http://127.0.0.1:3000/process');
         const diskRes0 = await fetch('http://127.0.0.1:3000/disk');
-        
+
         const cpu0 = await cpuRes0.json();
         const mem0 = await memRes0.json();
         const procList0 = await procRes0.json();
         const disk0 = await diskRes0.json();
-  
+
         const cpu_usage0 = document.querySelector(".usage");
         const memory_usage0 = document.querySelector(".memory_usage");
         const disk_usage0 = document.querySelector(".disk_usage");
-        
+
         document.getElementById('cpu_name').innerText = `Model: ${cpu0.cpu_model}`;
         document.getElementById('cpu_cores').innerText = `Cores: ${cpu0.cpu_cores} `;
         document.getElementById('cpu_threads').innerText = `Threads: ${cpu0.cpu_threads} `;
@@ -32,15 +32,15 @@ async function start() {
         document.getElementById('disk').innerText = `Disk Usage: ${disk0.used_gb} GB / ${disk0.total_gb} GB`;
         document.getElementById('memory_progress_text').innerText = `${mem0.percent} %`;
         document.getElementById('memory').innerText = `Memory Usage: ${mem0.used_mb} MB / ${mem0.total_mb} MB`;
-        
+
         // Update progress bars
         updateProgressBar(cpu_usage0, cpu0.cpu_percent);
         updateProgressBar(memory_usage0, mem0.percent);
         updateProgressBar(disk_usage0, disk0.percent);
-        
+
         // Update the process table
         updateProcessTable();
-        
+
         document.getElementById('output').style.display = "none";
     } catch (err) {
         document.getElementById('output').innerText = "Error connecting to backend.";
@@ -48,19 +48,19 @@ async function start() {
         console.error(err);
     }
   }
-  
-  
+
+
   // Function to fetch and update system states periodically
   async function getStates() {
       try {
           const cpuRes = await fetch('http://127.0.0.1:3000/cpu');
           const memRes = await fetch('http://127.0.0.1:3000/memory');
           const diskRes = await fetch('http://127.0.0.1:3000/disk');
-          
+
           const cpu = await cpuRes.json();
           const mem = await memRes.json();
           const disk = await diskRes.json();
-          
+
           document.getElementById('progress_text').innerText = `${cpu.cpu_percent} %`;
           document.getElementById('cpu_usage').innerText = `CPU Usage: ${cpu.cpu_percent} %`;
           document.getElementById('cpu_temp').innerText = `Temperature: ${cpu.cpu_temp} °C`;
@@ -69,7 +69,7 @@ async function start() {
         document.getElementById('disk').innerText = `Disk Usage: ${disk.used_gb} GB / ${disk.total_gb} GB`;
         document.getElementById('memory_progress_text').innerText = `${mem.percent} %`;
         document.getElementById('memory').innerText = `Memory Usage: ${mem.used_mb} MB / ${mem.total_mb} MB`;
-        
+
         const cpu_usage = document.querySelector(".usage");
         const memory_usage = document.querySelector(".memory_usage");
         const disk_usage = document.querySelector(".disk_usage");
@@ -161,7 +161,7 @@ function updateSortIndicators(column) {
 
 // Function to update the process table
 async function updateProcessTable() {
-    const procRes = await fetch('http://127.0.0.1:3000/process'); 
+    const procRes = await fetch('http://127.0.0.1:3000/process');
     const processes = await procRes.json();
     // Sort processes if sort is active
     if (currentSort.column) {
@@ -194,6 +194,9 @@ async function updateProcessTable() {
             <td>${(process.cpu_percent || 0).toFixed(1)}%</td>
             <td>${memoryPercent}%</td>
             <td><span class="process-status ${statusClass}">${status}</span></td>
+            <td><div class="process-controls">
+            <button id="end-task-btn" class="end-task-btn">ENDTASK</button>
+            </div></td>
         `;
 
         // Add click handler for row selection
@@ -290,6 +293,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Add data-column attributes to headers
     const headers = document.querySelectorAll('.process-table th');
     const columns = ['name', 'pid', 'cpu_percent', 'memory_percent', 'status'];
+
 
     headers.forEach((header, index) => {
         header.setAttribute('data-column', columns[index]);
