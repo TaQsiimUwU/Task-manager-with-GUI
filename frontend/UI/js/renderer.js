@@ -115,7 +115,7 @@ async function updateProcessTable() {
             <td>${process.name || 'Unknown'}</td>
             <td>${process.pid || 'N/A'}</td>
             <td>${(process.cpu_percent || 0).toFixed(1)}%</td>
-            <td>${memoryPercent}%</td>
+            <td>${memoryPercent}</td>
             <td><span class="process-status ${statusClass}">${status}</span></td>
             <td><div class="process-controls">
             <button id="end-task-btn" class="end-task-btn">ENDTASK</button>
@@ -151,7 +151,7 @@ start();
 document.addEventListener('DOMContentLoaded', () => {
     // Add data-column attributes to headers
     const headers = document.querySelectorAll('.process-table th');
-    const columns = ['name', 'pid', 'cpu_percent', 'memory_percent', 'status'];
+    const columns = ['name', 'pid', 'cpu_percent', 'memory_percent'];
 
 
     headers.forEach((header, index) => {
