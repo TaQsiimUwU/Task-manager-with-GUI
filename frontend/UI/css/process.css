@@ -71,7 +71,7 @@
   }
   
   .end-task-btn {
-      display: none;
+      /* display: none; */
       padding: 8px 16px;
       background: #dc3545;
       color: white;
@@ -83,6 +83,7 @@
   
   .end-task-btn:hover {
       background: #c82333;
+      transform: translateY(-2px);
   }
   
   .end-task-btn.visible {
@@ -93,3 +94,8 @@
       background: rgba(0, 0, 0, 0.2);
       border-radius: 10px;
   }
+
+th:hover{
+    background: rgba(255, 255, 255, 0.05);
+    cursor: pointer;
+}

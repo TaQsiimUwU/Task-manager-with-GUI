@@ -5,7 +5,7 @@
   <title>Task manager with electron</title>
   <link rel="stylesheet" href="css/index.css">
   <link rel="stylesheet" href="css/cpu.css">
-  <link rel="stylesheet" href="css/memory.css">
+  <link rel="stylesheet" href="css/process.css">
   <link rel="stylesheet" href="css/background.css">
 
 </head>
@@ -70,14 +70,16 @@
             <th>CPU %</th>
             <th>Memory %</th>
             <th>Status</th>
+            <th>User</th>
+            <th></th>
           </tr>
         </thead>
         <tbody id="process-list">
           <!-- Process rows will be dynamically added here -->
         </tbody>
       </table>
-      <div class="process-controls">
-        <button id="end-task-btn" class="end-task-btn">ENDTASK</button>
+      <div class="process-controls"style='display:hidden;'>
+        <button id="end-task-btn" class="end-task-btn"style="display:hidden;"></button>
       </div>
     </div>
   </div>
