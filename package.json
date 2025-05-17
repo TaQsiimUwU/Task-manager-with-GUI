@@ -8,9 +8,27 @@
   "main": "main.js",
   "scripts": {
     "start": "electron .",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "electron-builder"
+
   },
   "devDependencies": {
-    "electron": "^36.2.0"
+    "electron": "^36.2.0",
+    "electron-builder": "^26.0.12"
+  },
+  "build": {
+    "appId": "com.example.myapp",
+    "productName": "MyElectronApp",
+    "files": [
+      "**/*"
+    ],
+    "extraResources": [
+      {
+        "from": "dist/app",
+        "to": "app"
+      }
+    ],
+    "directories": {
+      "buildResources": "assets"
+    }
   }
 }

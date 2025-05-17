@@ -28,9 +28,9 @@ Thumbs.db
 *.tmp
 *.bak
 
-# Ignore build directories
-# build/
-# dist/
+Ignore build directories
+build/
+dist/
 
 # Ignore Git-specific files
 *.orig
