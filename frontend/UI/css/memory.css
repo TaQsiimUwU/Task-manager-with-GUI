@@ -4,7 +4,7 @@
     color: #00ffcc;
     text-align: center;
     margin-bottom: 10px;
-    
+
 }
 #refresh-process-btn {
     width: 100px;
@@ -23,12 +23,12 @@
     top: 0;
     right: 5px;
   }
-  
+
   #refresh-process-btn:hover {
     /* transform: translateY(-2px); */
     transform: translateX(2px);
   }
-  
+
   .process-table {
       width: 100%;
       border-collapse: collapse;
@@ -37,58 +37,65 @@
       border-radius: 8px;
       overflow: hidden;
   }
-  
+
   .process-table th, .process-table td {
       padding: 12px;
       text-align: left;
       border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   }
-  
+
   .process-table th {
       background: rgba(255, 255, 255, 0.1);
       font-weight: bold;
       color: #fff;
   }
-  
+
   .process-table tr {
       transition: background-color 0.3s;
   }
-  
+
   .process-table tr:hover {
       background: rgba(255, 255, 255, 0.05);
       cursor: pointer;
   }
-  
+
   .process-table tr.selected {
       background: rgba(255, 255, 255, 0.15);
   }
-  
+
   .process-controls {
       margin-top: 20px;
       display: flex;
       justify-content: flex-end;
       padding: 10px;
   }
-  
+
   .end-task-btn {
-      display: none;
-      padding: 8px 16px;
-      background: #dc3545;
-      color: white;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-      transition: background-color 0.3s;
+    width: 100px;
+    height: 40px;
+    padding: 12px;
+    background: linear-gradient(45deg, #808080, #a9a9a9);
+    border: none;
+    border-radius: 8px;
+    color: white;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+    margin-top: 20px;
+    align-self: center;
+    position:absolute;
+    top: 0;
+    right: 5px;
   }
-  
+
   .end-task-btn:hover {
       background: #c82333;
   }
-  
+
   .end-task-btn.visible {
       display: block;
   }
-  
+
   #processes {
       background: rgba(0, 0, 0, 0.2);
       border-radius: 10px;
