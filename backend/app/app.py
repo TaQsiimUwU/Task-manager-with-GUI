@@ -73,13 +73,13 @@ def memory():
 @main.route('/process')
 def process():
     process_list = []
-    for proc in psutil.process_iter(['pid', 'name', 'cpu_percent', 'memory_info']):
+    for proc in psutil.process_iter(['pid', 'name', 'cpu_percent', 'memory_info','username','status']):
         try:
             info = proc.info
             # Add memory usage in MB as a single value
             if info.get('memory_info'):
                 mem_info = info['memory_info']
-                info['memory_mb'] =mem_info.rss
+                info['memory_mb'] = mem_info.rss/(1024*1024)  # Convert bytes to MB
                 del info['memory_info']
             process_list.append(info)
         except (psutil.NoSuchProcess, psutil.AccessDenied):

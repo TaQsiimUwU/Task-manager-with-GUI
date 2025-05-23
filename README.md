@@ -1,12 +1,15 @@
 # Task Manager with GUI
 
-This project is a system monitoring application built using **Electron** for the frontend and **Flask** for the backend. It displays system statistics such as CPU, memory, and process information in a graphical user interface.
+This project is a system monitoring application built using **Electron** for the frontend and **Flask** for the backend. It displays system statistics such as CPU, memory, disk, and process information in a graphical user interface, allowing users to monitor and manage system resources.
 
 ## Features
 
-- Displays CPU model, cores, threads, usage, and temperature.
-- Shows memory usage and percentage.
-- Lists running processes with details like PID, name, status, memory usage, and CPU usage.
+- Displays CPU model, cores, threads, usage, and temperature (where available).
+- Shows memory usage statistics including total, used memory, and percentage.
+- Monitors disk usage including total space, used space, and percentage.
+- Lists running processes with details like PID, name, status, memory usage, CPU usage, and username.
+- Allows termination of processes directly from the interface.
+- Cross-platform support (Windows and Linux).
 
 ## Project Structure
 
@@ -15,16 +18,24 @@ Task-manager-with-GUI/
 ├── backend/
 │   ├── app/
 │   │   ├── __init__.py
-│   │   ├── routes.py
+│   │   ├── app.py
+│   │   └── KillProc.py
 │   ├── requirements.txt
 │   └── run.py
 ├── frontend/
-│   ├── assets/
-│   │   └── index.css
-|   |   └── renderer.html
-│   └── renderer.js
+│   ├── css/
+│   │   ├── background.css
+│   │   ├── cpu.css
+│   │   ├── index.css
+│   │   └── process.css
+│   ├── img/
+│   │   └── icon.png
+│   ├── js/
+│   │   └── renderer.js
+│   └── renderer.html
 ├── main.js
 ├── package.json
+├── preload.js
 └── README.md
 ```
 
@@ -42,10 +53,18 @@ Task-manager-with-GUI/
    cd Task-manager-with-GUI
    ```
 
-2. Set up a Python virtual environment (Linux users):
+2. Set up a Python virtual environment:
+
+   **For Linux/macOS:**
    ```bash
    python3 -m venv venv
    source venv/bin/activate
+   ```
+
+   **For Windows:**
+   ```powershell
+   python -m venv venv
+   .\venv\Scripts\Activate.ps1
    ```
 
 3. Install Node.js dependencies:
@@ -59,27 +78,39 @@ Task-manager-with-GUI/
    ```
 
 ## Running the Application
--make sure that you are in the root of the project-
- Start the application:
+
+1. Make sure you are in the root directory of the project.
+
+2. Start the application:
    ```bash
    npx electron .
    ```
 
- The Electron app will launch, and the Flask backend will run on `http://127.0.0.1:3000`.
+   This will automatically:
+   - Launch the Flask backend server on port 3000
+   - Start the Electron frontend application
+
+3. The application window will appear with the system monitoring interface.
+
+   The Flask backend runs on `http://127.0.0.1:3000` and is used internally by the Electron app.
 
 ## API Endpoints
 
 The Flask backend provides the following API endpoints:
 
-- `/cpu` - Returns CPU statistics.
-- `/memory` - Returns memory usage details.
-- `/process` - Returns a list of running processes.
+- `/cpu` - Returns CPU statistics (model, cores, threads, usage percentage, temperature).
+- `/memory` - Returns memory usage details (total, used, percentage).
+- `/disk` - Returns disk usage information (total, used space, percentage).
+- `/process` - Returns a list of running processes with details.
+- `/kill` - POST endpoint to terminate a process by PID.
 
 
 ## Notes
 
 - Ensure Python and Node.js are properly configured in your system's PATH.
 - The backend runs on port `3000` by default. Update the port in `backend/run.py` if needed.
+- CPU temperature monitoring is currently available on Linux systems only.
+- On Windows, use Python command that matches your installation (either `python` or `py` instead of `python3` if needed).
 
 ## License
 
