@@ -2,6 +2,7 @@ const cpuUsgeURL   = 'http://127.0.0.1:3000/cpu';
 const memUsageURL  = 'http://127.0.0.1:3000/memory';
 const diskUsageURL = 'http://127.0.0.1:3000/disk';
 const processesURL = 'http://127.0.0.1:3000/process'
+
 let totalMem = 0;
 
 // update progress bars(cpu usage , memory usage , disk usage)
@@ -186,6 +187,24 @@ function searchProcesses(searchText) {
     });
 }
 
+
+
+async function showProcessMoreInfo(pid) {
+    try {
+        const response = await fetch(`http://127.0.0.1:3000/processMoreInfo?pid=${pid}`);
+        const info = await response.json();
+        if (info.error) {
+            alert(`Error: ${info.error}`);
+            return;
+        }
+        // Display the info (customize as needed)
+        alert(JSON.stringify(info, null, 2));
+        // Or, you can display it in a modal or a div for better UX
+    } catch (err) {
+        alert('Failed to fetch process info.');
+        console.error(err);
+    }
+}
 
 
 // Initial calls
