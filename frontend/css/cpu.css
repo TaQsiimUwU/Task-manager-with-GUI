@@ -6,12 +6,12 @@
 
     font-family: Arial, sans-serif;
     font-size: 16px;
-    color: white;
+    color: var(--fontcolor);
     background: rgba(255, 255, 255, 0.05);
     padding: 15px;
     border: 1px solid transparent;
     border-radius: 15px;
-    white-space: pre-line; /* Preserve line breaks */
+    white-space: pre-line;
     line-height: 0.5;
     margin-left: 20px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -20,28 +20,28 @@
 }
 
 #CPU_MODEL > div {
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.08);
     padding: 10px;
     border: 1px solid rgba(255, 255, 255, 0.2);
     border-radius: 15px;
     text-align: center;
     font-weight: bold;
-    color: #00ffcc;
+    color: var(--accent);
     font-size: 14px;
     top: 50%;
-    white-space: pre; /* Allow text wrapping */
+    white-space: pre;
 }
+
 #CPU_MODEL #loading {
     grid-column: span 4;
     text-align: center;
     font-size: 18px;
     font-weight: bold;
-    color: lightgray;
+    color: #B0B0B0;
 }
 
 #CPU_MODEL #cpu_name {
-    overflow: visible; /* Allow text to overflow */
-    /*word-wrap: break-word; /* Break words if necessary */
+    overflow: visible;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -49,10 +49,10 @@
     text-align: center;
 }
 
-#CPU h2{
+#CPU h2 {
     font-size: 50px;
     text-align: center;
-    color: #00ffcc;
+    color: var(--accent);
     font-weight: bold;
     display: flex;
     margin: 0;
@@ -70,22 +70,21 @@
 #CPU_MODEL #cpu_states,
 #CPU_MODEL #disk_usage,
 #CPU_MODEL #memory_usage {
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.08);
     padding: 10px;
     border: 1px solid rgba(255, 255, 255, 0.2);
     border-radius: 15px;
     text-align: center;
     font-weight: bold;
     top: 50%;
-    color: #00ffcc;
-    font-size: 14px;
+    color: var(--accent);
+    font-size: 16px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 16px;
     text-align: center;
-    /* margin-bottom: 10px; */
 }
+
 #CPU_MODEL .cpu-name {
     display: flex;
     align-items: center;
@@ -105,7 +104,7 @@
 .cpu_info {
     font-size: 16px;
     text-align: center;
-    color: #00ffcc;
+    color: var(--accent);
     font-weight: bold;
     display: flex;
     align-items: center;
@@ -118,7 +117,7 @@
     width: 300px;
     height: 30px;
     margin: 0 auto;
-    background: #9cbab4;
+    background: #A1887F;
     border-radius: 80px;
     overflow: hidden;
 }
@@ -126,7 +125,7 @@
 .progress__fill {
     width: 0%;
     height: 100%;
-    background: #009579;
+    background: #6D4C41;
     transition: all 0.2s;
     position: absolute;
     top: 0;
@@ -140,4 +139,4 @@
     transform: translateY(-50%);
     font: bold 14px "Quicksand", sans-serif;
     color: #ffffff;
-}  
+}
