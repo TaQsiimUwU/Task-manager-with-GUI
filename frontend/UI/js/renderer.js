@@ -91,6 +91,12 @@ async function updateProcess() {
                         <button class="end-task-btn" data-pid="${process.pid}">ENDTASK</button>
                     </div>
                 </td>`;
+            // Add click event to row (excluding the end-task button)
+            row.addEventListener('click', function(event) {
+                // Prevent click on the end-task button from triggering this
+                if (event.target.closest('.end-task-btn')) return;
+                showProcessMoreInfo(process.pid);
+            });
             processTable.appendChild(row);
         });
 
