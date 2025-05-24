@@ -81,14 +81,16 @@ async function updateProcess() {
         processList.forEach((process) => {
             let row = document.createElement("tr");
             row.innerHTML = `
-            <td>${process.name || 'Unknown'}</td>
-            <td>${process.pid || 'N/A'}</td>
-            <td>${(process.cpu_percent ).toFixed(1)}%</td>
-            <td>${(process.memory_mb).toFixed(2) || 0} MB</td>
-            <td>${process.username}</td>
-            <td><div class="process-controls">
-            <button id="end-task-btn" class="end-task-btn">ENDTASK</button>
-            </div></td>`
+                <td>${process.name || 'Unknown'}</td>
+                <td>${process.pid || 'N/A'}</td>
+                <td>${(process.cpu_percent).toFixed(1)}%</td>
+                <td>${(process.memory_mb).toFixed(2) || 0} MB</td>
+                <td>${process.username}</td>
+                <td>
+                    <div class="process-controls">
+                        <button class="end-task-btn" data-pid="${process.pid}">ENDTASK</button>
+                    </div>
+                </td>`;
             processTable.appendChild(row);
         });
 
@@ -148,7 +150,22 @@ function searchProcesses(searchText) {
     });
 }
 
-
+async function showProcessMoreInfo(pid) {
+    try {
+        const response = await fetch(`http://127.0.0.1:3000/processMoreInfo?pid=${pid}`);
+        const info = await response.json();
+        if (info.error) {
+            alert(`Error: ${info.error}`);
+            return;
+        }
+        // Display the info (customize as needed)
+        alert(JSON.stringify(info, null, 2));
+        // Or, you can display it in a modal or a div for better UX
+    } catch (err) {
+        alert('Failed to fetch process info.');
+        console.error(err);
+    }
+}
 
 // Initial calls
 getDynamicStates();
