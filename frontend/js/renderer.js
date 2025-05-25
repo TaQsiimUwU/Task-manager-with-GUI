@@ -179,7 +179,107 @@ const ProcessTable = {
                 alert(`Error: ${info.error}`);
                 return;
             }
-            alert(JSON.stringify(info, null, 2));
+            // Render info in modal
+            const modal = document.getElementById('process-info-modal');
+            const content = document.getElementById('process-info-modal-content');
+            const closeBtn = document.getElementById('close-process-info-modal');
+
+            // Create or get the overlay
+            let overlay = document.getElementById('modal-backdrop-overlay');
+            if (!overlay) {
+                overlay = document.createElement('div');
+                overlay.id = 'modal-backdrop-overlay';
+                overlay.style.position = 'fixed';
+                overlay.style.top = '0';
+                overlay.style.left = '0';
+                overlay.style.width = '100vw';
+                overlay.style.height = '100vh';
+                overlay.style.background = 'rgba(0,0,0,0.35)';
+                overlay.style.zIndex = '999';
+                overlay.style.pointerEvents = 'auto';
+                overlay.style.transition = 'opacity 0.2s';
+                overlay.style.opacity = '1';
+                document.body.appendChild(overlay);
+            } else {
+                overlay.style.display = 'block';
+                overlay.style.opacity = '1';
+            }
+
+            // Prevent tabbing out of modal
+            const trapFocus = (e) => {
+                if (modal.style.display !== 'block') return;
+                const focusableEls = modal.querySelectorAll('button, [tabindex]:not([tabindex="-1"])');
+                const firstEl = focusableEls[0];
+                const lastEl = focusableEls[focusableEls.length - 1];
+                if (e.key === 'Tab') {
+                    if (e.shiftKey) {
+                        if (document.activeElement === firstEl) {
+                            lastEl.focus();
+                            e.preventDefault();
+                        }
+                    } else {
+                        if (document.activeElement === lastEl) {
+                            firstEl.focus();
+                            e.preventDefault();
+                        }
+                    }
+                }
+            };
+
+            if (modal && content) {
+                content.innerHTML = '';
+                // Show main process info in a grid
+                Object.entries(info).forEach(([key, value]) => {
+                    const div = document.createElement('div');
+                    div.innerHTML = `<strong>${key}</strong><br>${typeof value === 'object' ? JSON.stringify(value, null, 2) : value}`;
+                    content.appendChild(div);
+                });
+
+                // Helper to close modal and remove listeners/overlay
+                const closeModal = () => {
+                    modal.style.display = 'none';
+                    if (overlay) overlay.style.display = 'none';
+                    document.removeEventListener('keydown', escListener);
+                    document.removeEventListener('mousedown', clickListener, true);
+                    document.removeEventListener('keydown', trapFocus, true);
+                };
+
+                // ESC key closes modal
+                const escListener = (e) => {
+                    if (e.key === "Escape") {
+                        closeModal();
+                    }
+                };
+                document.addEventListener('keydown', escListener);
+
+                // Click on overlay closes modal, but not inside modal
+                const clickListener = (e) => {
+                    if (overlay && e.target === overlay) {
+                        closeModal();
+                    }
+                };
+                document.addEventListener('mousedown', clickListener, true);
+
+                // Trap focus inside modal
+                document.addEventListener('keydown', trapFocus, true);
+
+                // Close button closes modal
+                if (closeBtn) {
+                    closeBtn.onclick = function() {
+                        closeModal();
+                    };
+                }
+
+                // Show overlay and modal
+                overlay.style.display = 'block';
+                overlay.style.opacity = '1';
+                modal.style.display = 'block';
+                setTimeout(() => { 
+                    modal.style.pointerEvents = 'auto'; 
+                    // Focus close button for accessibility
+                    if (closeBtn) closeBtn.focus();
+                }, 10);
+            }
         } catch {
             alert('Failed to fetch process info.');
         }
@@ -214,6 +314,9 @@ const ProcessTable = {
     },
 };
 
+
+
+
 // Initial calls
 SystemState.updateDynamic();
 SystemState.updateStatic();
@@ -229,3 +332,4 @@ const refreshBtn = document.getElementById('refresh-process-btn');
 if (refreshBtn) {
     refreshBtn.onclick = () => ProcessTable.update();
 }
+
