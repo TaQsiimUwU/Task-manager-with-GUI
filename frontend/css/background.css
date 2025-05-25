@@ -1,0 +1,73 @@
+:root {
+    --h1font: 'Segoe UI', Arial, sans-serif;
+    --pfont: 'Noto Sans', sans-serif;
+    --buttonfont: 'Noto Sans', sans-serif;
+    --inputfont: 'Noto Sans', sans-serif;
+
+    /* Earth tone background gradient */
+    --background: linear-gradient(45deg, #2B2B2B, #3D3D3D);
+
+    /* Accent color */
+    --accent: #FFC107;
+    --accent-light: #FFD54F;
+
+    /* Typography colors */
+    --fontcolor: #FAFAFA;
+}
+
+/* Custom scrollbar styling */
+::-webkit-scrollbar {
+    width: 12px;
+}
+::-webkit-scrollbar-track {
+    background: #3D3D3D;
+}
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(45deg, var(--accent), var(--accent-light));
+    border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(45deg, var(--accent-light), var(--accent));
+}
+
+body {
+    font-family: var(--pfont);
+    background: var(--background);
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    background-size: cover;
+    color: var(--fontcolor);
+}
+
+.gradient-bg {
+    position: absolute;
+    inset: 0;
+    filter: blur(80px);
+    opacity: 0.7;
+    animation: gradientMove 15s ease infinite;
+    z-index: -1;
+}
+.gradient-1 { background: radial-gradient(circle at 50% 50%, rgba(255,193,7,0.3), transparent 100%); }
+.gradient-2 { background: radial-gradient(circle at 80% 50%, rgba(255,193,7,0.2), transparent 100%); }
+.gradient-3 { background: radial-gradient(circle at 100% 50%, rgba(255,193,7,0.15), transparent 100%); }
+
+.particles, .particle {
+    position: absolute;
+    z-index: -1;
+}
+.particle {
+    background: rgba(255, 255, 255, 0.7);
+    border-radius: 50%;
+    animation: float 20s infinite linear;
+}
+
+@keyframes gradientMove {
+    0%   { transform: scale(1) rotate(0deg); }
+    50%  { transform: scale(1.4) rotate(180deg); }
+    100% { transform: scale(1) rotate(360deg); }
+}
+@keyframes float {
+    0%   { transform: translate(0,0); }
+    50%  { transform: translate(100px,-100px); }
+    100% { transform: translate(0,0); }
+}

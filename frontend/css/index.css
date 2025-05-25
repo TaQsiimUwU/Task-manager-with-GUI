@@ -1,0 +1,69 @@
+.overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+}
+
+.header {
+    text-align: center;
+    padding: 5px;
+    position: relative;
+    animation: fadeInDown 0.5s ease-out;
+    font-family: var(--h1font);
+    font-weight: 800;
+    text-shadow: 3px 2px 0px var(--accent);
+}
+
+.header h1 {
+    font-size: 4.5rem;
+    font-family: var(--h1font);
+    font-weight: 800;
+    text-shadow: 3px 2px 0px var(--accent);
+    color: var(--fontcolor);
+    letter-spacing: 8px;
+    text-align: center;
+    animation: fadeInDown 0.5s ease-out;
+}
+
+.highlight {
+    color: var(--accent);
+    text-shadow: 3px 2px 0px var(--fontcolor);
+}
+
+@keyframes formAppear {
+  from {
+      opacity: 0;
+      transform: translateY(20px);
+  }
+  to {
+      opacity: 1;
+      transform: translateY(0);
+  }
+}
+
+@keyframes fadeInDown {
+  from {
+      opacity: 0;
+      transform: translateY(-30px);
+  }
+  to {
+      opacity: 1;
+      transform: translateY(0);
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+      opacity: 0;
+      transform: translateY(30px);
+  }
+  to {
+      opacity: 1;
+      transform: translateY(0);
+  }
+}

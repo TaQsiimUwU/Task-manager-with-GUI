@@ -1,8 +1,9 @@
-from flask import Blueprint, jsonify
+from flask import Blueprint, jsonify, request
 import psutil
 import platform
 import os
 import subprocess
+from .KillProc import kill_by_pid
 
 main = Blueprint('main', __name__)
 
@@ -72,16 +73,34 @@ def memory():
 @main.route('/process')
 def process():
     process_list = []
-    for proc in psutil.process_iter(['pid', 'name', 'cpu_percent', 'memory_info']):
+    for proc in psutil.process_iter(['pid', 'name', 'cpu_percent', 'memory_info','username','status']):
         try:
             info = proc.info
             # Add memory usage in MB as a single value
             if info.get('memory_info'):
                 mem_info = info['memory_info']
-                info['memory_mb'] =mem_info.rss
+                info['memory_mb'] = mem_info.rss/(1024*1024)  # Convert bytes to MB
                 del info['memory_info']
             process_list.append(info)
         except (psutil.NoSuchProcess, psutil.AccessDenied):
             continue
     return jsonify(process_list)
+
+
+
+
+
+@main.route('/kill', methods=['POST'])
+def kill_process():
+    try:
+        data = request.get_json()
+        pid = data.get('pid')
+
+        if not pid:
+            return jsonify({'success': False, 'error': 'PID not provided'}), 400
+
+        kill_by_pid(pid)
+        return jsonify({'success': True})
+    except Exception as e:
+        return jsonify({'success': False, 'error': str(e)}), 500
 

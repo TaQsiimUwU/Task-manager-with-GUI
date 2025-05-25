@@ -5,8 +5,9 @@
   <title>Task manager with electron</title>
   <link rel="stylesheet" href="css/index.css">
   <link rel="stylesheet" href="css/cpu.css">
-  <link rel="stylesheet" href="css/memory.css">
+  <link rel="stylesheet" href="css/process.css">
   <link rel="stylesheet" href="css/background.css">
+  <link rel="stylesheet" href="css/floating.css">
 
 </head>
 <body>
@@ -56,9 +57,9 @@
 
 
 
-<div class="process-info-header" style="position:relative;" >
+<div class="process-info-header" style="position:relative;">
     <h2 id="prc_title">Processes</h2>
-    <button id="refresh-process-btn" onclick="updateProcessTable()">Refresh</button>
+    <button id="refresh-process-btn" onclick="updateProcess()">Refresh</button>
 </div>
   <div id="processes">
     <div id="process-info">
@@ -68,24 +69,52 @@
             <th>Process Name</th>
             <th>PID</th>
             <th>CPU %</th>
-            <th>Memory %</th>
-            <th>Status</th>
+            <th>Memory</th>
+            <th>User</th>
+            <th>
+              <input type="text" id="process-search" placeholder="Search processes..." onkeyup="searchProcesses(this.value)">
+            </th>
           </tr>
         </thead>
         <tbody id="process-list">
+          <td>  <div class="process-controls">
+        <button id="end-task-btn" class="end-task-btn">ENDTASK</button>
+      </div></td>
           <!-- Process rows will be dynamically added here -->
         </tbody>
       </table>
-      <div class="process-controls">
-        <button id="end-task-btn" class="end-task-btn">ENDTASK</button>
-      </div>
     </div>
   </div>
 
 
+  <div class = "floating">
+    <table>
+      <tr>
+       <th>Process Name</th>
+       <th>PID</th>
+       <th>CPU %</th>
+       <th>Memory</th>
+       <th>User</th>
+      </tr>
 
+      <tr>
+        <td>cpu_times()</td>
+        <td>status()</td>
+        <td>memory_info()</td>
+        <td>memory_percent()</td>
+        <td>cmdline()</td>>
+      </tr>
 
+      <tr>
+        <td>num_threads()</td>
+        <td>open_files()</td>
+        <td>connections()</td>
+        <td>io_counters()</td>
+        <td>is_running()</td>
+      </tr>
 
+    </table>
+    </div>
 
   <script src="js/renderer.js"></script>
 </body>
