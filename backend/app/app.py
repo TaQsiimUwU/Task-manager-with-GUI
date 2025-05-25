@@ -86,6 +86,32 @@ def process():
             continue
     return jsonify(process_list)
 
+@main.route('/processMoreInfo')
+def processMoreInfo():
+    pid = request.args.get('pid', type=int)
+    if not pid:
+        return jsonify({'error': 'PID not provided'}), 400
+    try:
+        proc = psutil.Process(pid)
+        info = {
+            'process_name': proc.name(),
+            'pid': proc.pid,
+            'cpu_percent': proc.cpu_percent(interval=0.1),
+            'memory': proc.memory_info().rss / (1024 * 1024),  # in MB
+            'user': proc.username(),
+            'cpu_times': proc.cpu_times()._asdict(),
+            'status': proc.status(),
+            'memory_info': proc.memory_info()._asdict(),
+            'memory_percent': proc.memory_percent(),
+            'num_threads': proc.num_threads(),
+            'open_files': [f._asdict() for f in proc.open_files()],
+            'connections': [c._asdict() for c in proc.connections()],
+            'io_counters': proc.io_counters()._asdict() if proc.io_counters() else None,
+            'is_running': proc.is_running(),
+        }
+        return jsonify(info)
+    except (psutil.NoSuchProcess, psutil.AccessDenied) as e:
+        return jsonify({'error': str(e)}), 404
 
 
 

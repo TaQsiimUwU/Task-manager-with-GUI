@@ -59,19 +59,29 @@
 
 <div class="process-info-header" style="position:relative;">
     <h2 id="prc_title">Processes</h2>
-    <button id="refresh-process-btn" onclick="updateProcess()">Refresh</button>
+    <button id="refresh-process-btn" >Refresh</button>
 </div>
+<div id="loader"> 
+  <span id="process-loading-spinner" style="display:none; margin-left:10px;">
+    <span class="dot-spinner">
+      <span class="dot"></span>
+      <span class="dot"></span>
+      <span class="dot"></span>
+      <span class="dot"></span>
+    </span>
+  </span>
+ </div>
   <div id="processes">
     <div id="process-info">
       <table class="process-table">
         <thead>
           <tr>
-            <th>Process Name</th>
-            <th>PID</th>
-            <th>CPU %</th>
-            <th>Memory</th>
-            <th>User</th>
-            <th>
+            <th class="PName">Process Name</th>
+            <th class="PID">PID</th>
+            <th class="cpu">CPU %</th>
+            <th class="Memo">Memory</th>
+            <th class="usr">User</th>
+            <th class="search">
               <input type="text" id="process-search" placeholder="Search processes..." onkeyup="searchProcesses(this.value)">
             </th>
           </tr>
@@ -86,6 +96,34 @@
     </div>
   </div>
 
+<div class = "floating">
+<table>
+  <tr>
+  <th>Process Name</th>
+  <th>PID</th>
+  <th>CPU %</th>
+  <th>Memory</th>
+  <th>User</th>
+  </tr>
+
+      <tr>
+        <td>cpu_times()</td>
+        <td>status()</td>
+        <td>memory_info()</td>
+        <td>memory_percent()</td>
+        <td>cmdline()</td>>
+      </tr>
+
+      <tr>
+        <td>num_threads()</td>
+        <td>open_files()</td>
+        <td>connections()</td>
+        <td>io_counters()</td>
+        <td>is_running()</td>
+      </tr>
+
+    </table>
+    </div>
 
   <script src="js/renderer.js"></script>
 </body>
