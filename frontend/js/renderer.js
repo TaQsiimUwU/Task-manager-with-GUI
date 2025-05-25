@@ -4,6 +4,12 @@ const diskUsageURL = 'http://127.0.0.1:3000/disk';
 const processesURL = 'http://127.0.0.1:3000/process'
 let totalMem = 0;
 
+// Add this at the top to keep track of sort state
+let processSortState = {
+    column: null,
+    ascending: true
+};
+
 // update progress bars(cpu usage , memory usage , disk usage)
 function updateProgressBar(progressBar, value) {
     value = Math.round(value);
@@ -72,9 +78,20 @@ async function getstaticStates() {
 }
 
 async function updateProcess() {
+    const spinner = document.getElementById('process-loading-spinner');
+    const refreshBtn = document.getElementById('refresh-process-btn');
+    const processInfoDiv = document.getElementById('process-info');
+    if (spinner) spinner.style.display = 'inline-block';
+    if (refreshBtn) refreshBtn.disabled = true;
+    if (processInfoDiv) processInfoDiv.style.display = 'none';
     try {
         const process = await fetch(processesURL);
-        const processList = await process.json();
+        let processList = await process.json();
+
+        // Sort processList if a sort is active
+        if (processSortState.column !== null) {
+            processList = sortProcessList(processList, processSortState.column, processSortState.ascending);
+        }
 
         let processTable = document.getElementById('process-list');
         processTable.innerHTML = ""; // Clear the table before adding rows
@@ -92,6 +109,11 @@ async function updateProcess() {
                         <button class="end-task-btn" data-pid="${process.pid}">ENDTASK</button>
                     </div>
                 </td>`;
+            // Add click event to row (excluding the end-task button)
+            row.addEventListener('click', function(event) {
+                if (event.target.closest('.end-task-btn')) return;
+                showProcessMoreInfo(process.pid);
+            });
             processTable.appendChild(row);
         });
 
@@ -106,10 +128,99 @@ async function updateProcess() {
             });
         });
 
+        // Enable sorting on table headers
+        enableTableSorting();
+
+        if (processInfoDiv) processInfoDiv.style.display = '';
         document.getElementById('output').style.display = "none";
     } catch (err) {
         document.getElementById('output').innerText = "Error connecting to backend.";
         document.getElementById('output').style.color = "red";
+        console.error(err);
+    } finally {
+        if (spinner) spinner.style.display = 'none';
+        if (refreshBtn) refreshBtn.disabled = false;
+    }
+}
+
+// Helper to sort the process list array
+function sortProcessList(list, column, ascending) {
+    const keyMap = [
+        'name',
+        'pid',
+        'cpu_percent',
+        'memory_mb',
+        'username'
+    ];
+    const key = keyMap[column];
+    return list.slice().sort((a, b) => {
+        let aVal = a[key];
+        let bVal = b[key];
+        // Numeric sort for pid, cpu_percent, memory_mb
+        if (column === 1 || column === 2 || column === 3) {
+            aVal = parseFloat(aVal) || 0;
+            bVal = parseFloat(bVal) || 0;
+        } else {
+            aVal = (aVal || '').toString().toLowerCase();
+            bVal = (bVal || '').toString().toLowerCase();
+        }
+        if (aVal < bVal) return ascending ? -1 : 1;
+        if (aVal > bVal) return ascending ? 1 : -1;
+        return 0;
+    });
+}
+
+function enableTableSorting() {
+    // Get thead ths (skip the last one with the search input)
+    const ths = document.querySelectorAll('.process-table thead th');
+    ths.forEach((th, idx) => {
+        // Only add to the first 5 columns (not the search input)
+        if (idx < 5) {
+            th.style.cursor = 'pointer';
+            th.onclick = function() {
+                if (processSortState.column === idx) {
+                    processSortState.ascending = !processSortState.ascending;
+                } else {
+                    processSortState.column = idx;
+                    processSortState.ascending = true;
+                }
+                updateProcess();
+            };
+        }
+    });
+}
+
+function searchProcesses(searchText) {
+    const input = searchText.toLowerCase();
+    const rows = document.querySelectorAll('#process-list tr');
+
+    rows.forEach(row => {
+        const cells = row.querySelectorAll('td');
+        let found = false;
+
+        cells.forEach(cell => {
+            if (cell.innerText.toLowerCase().includes(input)) {
+                found = true;
+            }
+        });
+
+        row.style.display = found ? '' : 'none';
+    });
+}
+
+async function showProcessMoreInfo(pid) {
+    try {
+        const response = await fetch(`http://127.0.0.1:3000/processMoreInfo?pid=${pid}`);
+        const info = await response.json();
+        if (info.error) {
+            alert(`Error: ${info.error}`);
+            return;
+        }
+        // Display the info (customize as needed)
+        alert(JSON.stringify(info, null, 2));
+        // Or, you can display it in a modal or a div for better UX
+    } catch (err) {
+        alert('Failed to fetch process info.');
         console.error(err);
     }
 }
@@ -138,56 +249,6 @@ async function killProcess(pid) {
     }
 }
 
-function enableTableSorting() {
-    const table = document.getElementById('process-list');
-    const headers = table.querySelectorAll('th'); // Select all table headers
-
-    headers.forEach((header, index) => {
-        header.addEventListener('click', () => {
-            sortProcesses(index); // Call the sort function with the column index
-        });
-    });
-}
-
-function sortProcesses(column) {
-    const table = document.getElementById('process-list');
-    const rows = Array.from(table.rows).slice(1); // Skip the header row
-
-    rows.sort((a, b) => {
-        const aText = a.cells[column].innerText.trim();
-        const bText = b.cells[column].innerText.trim();
-
-        // Sort numerically for CPU and Memory columns, otherwise sort alphabetically
-        if (column === 2 || column === 3) { // Assuming column 2 is CPU and column 3 is Memory
-            return parseFloat(aText) - parseFloat(bText);
-        } else {
-            return aText.localeCompare(bText);
-        }
-    });
-
-    rows.forEach(row => table.appendChild(row)); // Re-append sorted rows
-}
-
-function searchProcesses(searchText) {
-    const input = searchText.toLowerCase();
-    const rows = document.querySelectorAll('#process-list tr');
-
-    rows.forEach(row => {
-        const cells = row.querySelectorAll('td');
-        let found = false;
-
-        cells.forEach(cell => {
-            if (cell.innerText.toLowerCase().includes(input)) {
-                found = true;
-            }
-        });
-
-        row.style.display = found ? '' : 'none';
-    });
-}
-
-
-
 // Initial calls
 getDynamicStates();
 getstaticStates();
@@ -196,6 +257,4 @@ getstaticStates();
 setInterval(() => { getDynamicStates(); }, 1000);
 updateProcess();
 
-
 getstaticStates();
-enableTableSorting();

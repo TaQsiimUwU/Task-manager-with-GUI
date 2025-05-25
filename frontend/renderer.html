@@ -60,17 +60,27 @@
     <h2 id="prc_title">Processes</h2>
     <button id="refresh-process-btn" onclick="updateProcess()">Refresh</button>
 </div>
+<div id="loader"> 
+  <span id="process-loading-spinner" style="display:none; margin-left:10px;">
+    <span class="dot-spinner">
+      <span class="dot"></span>
+      <span class="dot"></span>
+      <span class="dot"></span>
+      <span class="dot"></span>
+    </span>
+  </span>
+ </div>
   <div id="processes">
     <div id="process-info">
       <table class="process-table">
         <thead>
           <tr>
-            <th>Process Name</th>
-            <th>PID</th>
-            <th>CPU %</th>
-            <th>Memory</th>
-            <th>User</th>
-            <th>
+            <th class="PName">Process Name</th>
+            <th class="PID">PID</th>
+            <th class="cpu">CPU %</th>
+            <th class="Memo">Memory</th>
+            <th class="usr">User</th>
+            <th class="search">
               <input type="text" id="process-search" placeholder="Search processes..." onkeyup="searchProcesses(this.value)">
             </th>
           </tr>
@@ -85,7 +95,7 @@
     </div>
   </div>
 
-<div class = "floating">
+<div class = "floating" style="display: none;">
 <table>
   <tr>
   <th>Process Name</th>
