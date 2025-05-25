@@ -189,23 +189,6 @@ function searchProcesses(searchText) {
 
 
 
-async function showProcessMoreInfo(pid) {
-    try {
-        const response = await fetch(`http://127.0.0.1:3000/processMoreInfo?pid=${pid}`);
-        const info = await response.json();
-        if (info.error) {
-            alert(`Error: ${info.error}`);
-            return;
-        }
-        // Display the info (customize as needed)
-        alert(JSON.stringify(info, null, 2));
-        // Or, you can display it in a modal or a div for better UX
-    } catch (err) {
-        alert('Failed to fetch process info.');
-        console.error(err);
-    }
-}
-
 
 // Initial calls
 getDynamicStates();
