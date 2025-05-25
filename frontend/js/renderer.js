@@ -2,6 +2,7 @@ const cpuUsgeURL   = 'http://127.0.0.1:3000/cpu';
 const memUsageURL  = 'http://127.0.0.1:3000/memory';
 const diskUsageURL = 'http://127.0.0.1:3000/disk';
 const processesURL = 'http://127.0.0.1:3000/process'
+
 let totalMem = 0;
 
 // Add this at the top to keep track of sort state
@@ -248,6 +249,56 @@ async function killProcess(pid) {
         alert(`Error terminating process with PID ${pid}.`);
     }
 }
+
+function enableTableSorting() {
+    const table = document.getElementById('process-list');
+    const headers = table.querySelectorAll('th'); // Select all table headers
+
+    headers.forEach((header, index) => {
+        header.addEventListener('click', () => {
+            sortProcesses(index); // Call the sort function with the column index
+        });
+    });
+}
+
+function sortProcesses(column) {
+    const table = document.getElementById('process-list');
+    const rows = Array.from(table.rows).slice(1); // Skip the header row
+
+    rows.sort((a, b) => {
+        const aText = a.cells[column].innerText.trim();
+        const bText = b.cells[column].innerText.trim();
+
+        // Sort numerically for CPU and Memory columns, otherwise sort alphabetically
+        if (column === 2 || column === 3) { // Assuming column 2 is CPU and column 3 is Memory
+            return parseFloat(aText) - parseFloat(bText);
+        } else {
+            return aText.localeCompare(bText);
+        }
+    });
+
+    rows.forEach(row => table.appendChild(row)); // Re-append sorted rows
+}
+
+function searchProcesses(searchText) {
+    const input = searchText.toLowerCase();
+    const rows = document.querySelectorAll('#process-list tr');
+
+    rows.forEach(row => {
+        const cells = row.querySelectorAll('td');
+        let found = false;
+
+        cells.forEach(cell => {
+            if (cell.innerText.toLowerCase().includes(input)) {
+                found = true;
+            }
+        });
+
+        row.style.display = found ? '' : 'none';
+    });
+}
+
+
 
 // Initial calls
 getDynamicStates();

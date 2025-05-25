@@ -125,7 +125,7 @@
 .progress__fill {
     width: 0%;
     height: 100%;
-    background: #6D4C41;
+    background: #FFC107;
     transition: all 0.2s;
     position: absolute;
     top: 0;
@@ -135,8 +135,9 @@
 .progress_text {
     position: absolute;
     top: 50%;
-    right: 10px;
+    left: 10px;
     transform: translateY(-50%);
     font: bold 14px "Quicksand", sans-serif;
     color: #ffffff;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
 }
