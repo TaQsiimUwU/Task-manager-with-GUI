@@ -1,4 +1,4 @@
-# Task Manager with GUI
+-# Task Manager with GUI
 
 This project is a system monitoring application built using **Electron** for the frontend and **Flask** for the backend. It displays system statistics such as CPU, memory, disk, and process information in a graphical user interface, allowing users to monitor and manage system resources.
 
@@ -111,6 +111,15 @@ The Flask backend provides the following API endpoints:
 - The backend runs on port `3000` by default. Update the port in `backend/run.py` if needed.
 - CPU temperature monitoring is currently available on Linux systems only.
 - On Windows, use Python command that matches your installation (either `python` or `py` instead of `python3` if needed).
+
+## Screenshot of the program
+ ![1748263892232](https://github.com/user-attachments/assets/18f86771-dd08-4fa2-9b80-cb608316aaba)
+![1748263892209](https://github.com/user-attachments/assets/0677f6bc-f43a-4293-ab64-3a389f1cc8d0)
+![1748263892172](https://github.com/user-attachments/assets/ddbdc67b-0c03-4efb-bab1-f6391e78e239)
+![1748263892165](https://github.com/user-attachments/assets/4c84f065-7210-44de-ae22-59c0ac71a643)
+![1748263892098](https://github.com/user-attachments/assets/3b1dd857-e269-419d-9eee-768ddeb75774)
+![1748263892465](https://github.com/user-attachments/assets/8df6bc1e-a7d1-432b-a486-91f875445e63)
+
 
 ## License
 
