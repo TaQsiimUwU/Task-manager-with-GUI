@@ -70,6 +70,11 @@
   from { opacity: 0; transform: translate(-50%, -60%); }
   to { opacity: 1; transform: translate(-50%, -50%); }
 }
-#backgroundForMoreInfo{
-  background: #0f0c0ccc;
+
+#process_info_tittle{
+    border-radius: 10px;
+    text-align: center;
+    font-weight: bold;
+    color: var(--accent, #FFC107);
+    font-size: 15px;
 }

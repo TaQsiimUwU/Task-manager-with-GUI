@@ -88,7 +88,7 @@ def process():
 
 @main.route('/processMoreInfo')
 def processMoreInfo():
-    pid = request.args.get('pid', type=int)
+    pid = request.args.get('pid', type=int)1
     if not pid:
         return jsonify({'error': 'PID not provided'}), 400
     try:
@@ -96,7 +96,7 @@ def processMoreInfo():
         info = {
             'process_name': proc.name(),
             'pid': proc.pid,
-            'cpu_percent': proc.cpu_percent(interval=0.1),
+            'cpu_percent': proc.cpu_percent(interval=1),
             'memory': proc.memory_info().rss / (1024 * 1024),  # in MB
             'user': proc.username(),
             'cpu_times': proc.cpu_times()._asdict(),

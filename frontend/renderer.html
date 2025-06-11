@@ -96,41 +96,17 @@
     </div>
   </div>
 
-<div class = "floating">
-<table>
-  <tr>
-  <th>Process Name</th>
-  <th>PID</th>
-  <th>CPU %</th>
-  <th>Memory</th>
-  <th>User</th>
-  </tr>
-
-      <tr>
-        <td>cpu_times()</td>
-        <td>status()</td>
-        <td>memory_info()</td>
-        <td>memory_percent()</td>
-        <td>cmdline()</td>>
-      </tr>
-
-      <tr>
-        <td>num_threads()</td>
-        <td>open_files()</td>
-        <td>connections()</td>
-        <td>io_counters()</td>
-        <td>is_running()</td>
-      </tr>
-
-    </table>
-    </div>
-
-  <script src="js/renderer.js"></script>
-
-<!-- Floating Process Info Modal -->
+  
+  <!-- Floating Process Info Modal -->
   <div id="process-info-modal" style="display:none; position:fixed; top:50%; left:50%; transform:translate(-50%,-50%); z-index:1000;   border-radius:15px; box-shadow:0 4px 16px rgba(0,0,0,0.2); min-width:350px; min-height:200px; padding:24px 32px;">
     <button id="close-process-info-modal" style="position:absolute; top:10px; right:10px; background:transparent; border:none; font-size:24px; cursor:pointer;">&times;</button>
+    <div id="process_info_tittle">
+      <h2>statusForNerds</h2>
+    </div>
     <div id="process-info-modal-content" style="margin-top:24px;"></div>
   </div>
+
+
+  <script src="js/renderer.js"></script>
 </body>
 </html>
