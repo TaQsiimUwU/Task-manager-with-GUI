@@ -88,7 +88,7 @@ def process():
 
 @main.route('/processMoreInfo')
 def processMoreInfo():
-    pid = request.args.get('pid', type=int)1
+    pid = request.args.get('pid', type=int)
     if not pid:
         return jsonify({'error': 'PID not provided'}), 400
     try:
