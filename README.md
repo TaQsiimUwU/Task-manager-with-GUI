@@ -1,4 +1,4 @@
--# Task Manager with GUI
+# Task Manager with GUI
 
 This project is a system monitoring application built using **Electron** for the frontend and **Flask** for the backend. It displays system statistics such as CPU, memory, disk, and process information in a graphical user interface, allowing users to monitor and manage system resources.
 
@@ -124,3 +124,4 @@ The Flask backend provides the following API endpoints:
 ## License
 
 This project is licensed under the MIT License.
+
